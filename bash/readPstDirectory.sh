@@ -41,5 +41,5 @@ for file in ${fileList}; do
 	targetDir="$outputDir/$target";
 	#readpst requieres the existance of the output dir
 	mkdir -p "$targetDir";
-	readpst -o "$targetDir" "$inputDir$file";
+	readpst -o "$targetDir" "$inputDir/$file";
 done
