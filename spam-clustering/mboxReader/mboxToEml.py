@@ -6,6 +6,7 @@ import re
 
 from optparse import OptionParser
 from datetime import datetime
+from ..mailIo import mailIo
 
 def generateMailId(message):
 	mailId = str(message['Message-ID']).encode('ascii')
@@ -52,7 +53,7 @@ def processMbox(inPath, outPath):
 	for message in mailbox.mbox(inPath):
 		fn = generateEmlFileName(message)
 		fn = outDir + '/' + fn
-		writeMessageToEml(message, fn)
+		mailIo.writeMessageToEml(message, fn)
 
 def main():
 	usage = "usage %prog [options] arg"
