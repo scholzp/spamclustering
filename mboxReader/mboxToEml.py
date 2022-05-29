@@ -1,5 +1,4 @@
 import mailbox
-import email
 import time
 import hashlib
 import os
@@ -7,7 +6,6 @@ import re
 
 from optparse import OptionParser
 from datetime import datetime
-from email.iterators import _structure
 
 def generateMailId(message):
 	mailId = str(message['Message-ID']).encode('ascii')
@@ -35,12 +33,6 @@ def generateEmlFileName(message):
 	date = mailDate.strftime('%Y-%m-%d-%H:%M:%S')
 	
 	return date+'_'+id+'.eml'
-
-def writeMessageToEml(message, fn):
-	if fn and fn != '':
-		with open(fn, 'w') as out:
-			gen = email.generator.Generator(out)
-			gen.flatten(message)
 
 def processMbox(inPath, outPath):	
 	(_, tail) = os.path.split(inPath)
