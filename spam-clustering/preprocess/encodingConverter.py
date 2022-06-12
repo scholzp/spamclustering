@@ -107,33 +107,34 @@ class ExtentedEmailMessage:
                 + self.patternTransferEncoding + '.*\n' + self.patternHtml
         ]
         matches = self._match_pattern_list(pattern_list)
-        for m in matches:
-            self.payload_list.append(self._create_payload_from_match(m))
+        for match_obj in matches:
+            self.payload_list.append(
+                self._create_payload_from_match(match_obj))
 
     def _match_pattern_list(self, pattern_list):
         result = []
         for pattern in pattern_list:
-            r = re.compile(pattern, re.S)
-            for m in r.finditer(self.serialized_email):
-                result.append(m)
+            regexp = re.compile(pattern, re.S)
+            for match_obj in regexp.finditer(self.serialized_email):
+                result.append(match_obj)
         return result
 
-    def _create_payload_from_match(self, m):
-        start = m.start()
-        end = m.end()
-        content = m.group(3)
-        content_type = self._retrieve_content_type(m)
-        transfer_encoding = self._retrieve_encoding(m)
+    def _create_payload_from_match(self, match_obj):
+        start = match_obj.start()
+        end = match_obj.end()
+        content = match_obj.group(3)
+        content_type = self._retrieve_content_type(match_obj)
+        transfer_encoding = self._retrieve_encoding(match_obj)
         payload = Payload(start, end, content, content_type, transfer_encoding)
         if payload.content_type == ContentType.PLAINTEXT:
             pattern = 'charset=\"(.*)\"'
-            charset_match = re.search(pattern, m.group(0))
+            charset_match = re.search(pattern, match_obj.group(0))
             if charset_match:
                 payload.set_charset(charset_match.group(1))
         return payload
 
-    def _retrieve_encoding(self, m):
-        match m.group(2):
+    def _retrieve_encoding(self, match_obj):
+        match match_obj.group(2):
             case 'base64':
                 return Encoding.BASE64
             case 'quoted-printable':
@@ -141,8 +142,8 @@ class ExtentedEmailMessage:
             case _:
                 return Encoding.UNDEFINED
 
-    def _retrieve_content_type(self, m):
-        match m.group(1):
+    def _retrieve_content_type(self, match_obj):
+        match match_obj.group(1):
             case self.patternContentTypePlain:
                 return ContentType.PLAINTEXT
             case self.patternContentTypeHtml:
