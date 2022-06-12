@@ -48,6 +48,13 @@ class Payload:
                 result = base64.decodebytes(bytes(self.content, 'utf-8'))
         return result
 
+    def to_utf8(self):
+        result = None
+        if ContentType.PLAINTEXT == self.content_type:
+            base64_bytes = self.decode()
+            result = base64_bytes.decode(self.charset)
+        return result
+
     def __str__(self):
         result = 'This is an payload-object of an email message.\n'
         result += 'Start in mail: ' + str(self.start)
@@ -155,7 +162,7 @@ def main():
     #   if not (message.is_multipart()):
         extMessage = ExtentedEmailMessage(message)
         extMessage.extract_payload()
-        print(extMessage.payload_list[0].decode())
+        print(extMessage.payload_list[0].to_utf8())
     else:
         print("Path was not given")
 
