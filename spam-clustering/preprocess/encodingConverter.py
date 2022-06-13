@@ -84,7 +84,7 @@ class Payload:
 
 
 class ExtentedEmailMessage:
-    serialized_email = None
+    email_message = None
     payload_list = []
 
     # some pattern strings to create regular expressions from
@@ -96,7 +96,7 @@ class ExtentedEmailMessage:
     pattern_encoding_types = '(base64|quoted-printable)\n'
 
     def __init__(self, message):
-        self.serialized_email = message.as_string()
+        self.email_message = message
         self.payload_list = []
 
     def extract_payload(self):
@@ -118,9 +118,10 @@ class ExtentedEmailMessage:
 
     def _match_pattern_list(self, pattern_list):
         result = []
+        serialized_email = self.email_message.as_string()
         for pattern in pattern_list:
             regexp = re.compile(pattern, re.S)
-            for match_obj in regexp.finditer(self.serialized_email):
+            for match_obj in regexp.finditer(serialized_email):
                 result.append(match_obj)
         return result
 
