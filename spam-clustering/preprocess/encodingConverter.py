@@ -52,7 +52,7 @@ class Payload:
         result = None
         if ContentType.PLAINTEXT == self.content_type:
             base64_bytes = self.decode()
-            result = base64_bytes.decode(self.charset)
+            result = base64_bytes.decode(self.charset, 'ignore')
         return result
 
     def __str__(self):
@@ -128,6 +128,7 @@ class ExtentedEmailMessage:
         start = match_obj.start()
         end = match_obj.end()
         content = match_obj.group(3)
+       # print(content)
         content_type = self._retrieve_content_type(match_obj)
         transfer_encoding = self._retrieve_encoding(match_obj)
         payload = Payload(start, end, content, content_type, transfer_encoding)
@@ -175,8 +176,8 @@ def main():
     #   if not (message.is_multipart()):
         extMessage = ExtentedEmailMessage(message)
         extMessage.extract_payload()
-        print(extMessage)
-#        print(extMessage.payload_list[0].to_utf8())
+        #print(extMessage)
+        print(extMessage.payload_list[0].to_utf8())
     else:
         print("Path was not given")
 
