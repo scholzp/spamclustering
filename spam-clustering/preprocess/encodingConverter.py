@@ -89,7 +89,7 @@ class ExtentedEmailMessage:
 
     # some pattern strings to create regular expressions from
     patternHtml = '(<html.*/html>)'
-    patternBase64 = '(\n(?:[a-zA-Z0-9=]|\n)+\n)'
+    patternBase64 = '((?:[a-zA-Z0-9=]|\n)+)\n'
     patternContentTypePlain = 'Content-Type: text/plain'
     patternContentTypeHtml = 'Content-Type: text/html'
     patternTransferEncoding = 'Content-Transfer-Encoding: '
@@ -105,7 +105,7 @@ class ExtentedEmailMessage:
             '(' + self.patternContentTypePlain + ').*\n'
                 + self.patternTransferEncoding
                 + self.pattern_encoding_types 
-                + '.*' + self.patternBase64,
+                + '(?:.*:.*\n)?' + self.patternBase64,
             '(' + self.patternContentTypeHtml + ').*\n'
                 + self.patternTransferEncoding 
                 + self.pattern_encoding_types 
