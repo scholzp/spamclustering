@@ -104,11 +104,11 @@ class ExtentedEmailMessage:
         pattern_list = [
             '(' + self.patternContentTypePlain + ').*\n'
                 + self.patternTransferEncoding
-                + self.pattern_encoding_types 
+                + self.pattern_encoding_types
                 + '(?:.*:.*\n)?' + self.patternBase64,
             '(' + self.patternContentTypeHtml + ').*\n'
-                + self.patternTransferEncoding 
-                + self.pattern_encoding_types 
+                + self.patternTransferEncoding
+                + self.pattern_encoding_types
                 + '.*\n' + self.patternHtml
         ]
         matches = self._match_pattern_list(pattern_list)
