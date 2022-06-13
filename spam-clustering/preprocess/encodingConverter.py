@@ -92,7 +92,8 @@ class ExtentedEmailMessage:
     patternBase64 = '(\n(?:[a-zA-Z0-9=]|\n)+\n)'
     patternContentTypePlain = 'Content-Type: text/plain'
     patternContentTypeHtml = 'Content-Type: text/html'
-    patternTransferEncoding = 'Content-Transfer-Encoding: (.*)\n'
+    patternTransferEncoding = 'Content-Transfer-Encoding: '
+    pattern_encoding_types = '(base64|quoted-printable)\n'
 
     def __init__(self, message):
         self.serialized_email = message.as_string()
@@ -102,9 +103,13 @@ class ExtentedEmailMessage:
         matches = []
         pattern_list = [
             '(' + self.patternContentTypePlain + ').*\n'
-                + self.patternTransferEncoding + self.patternBase64,
+                + self.patternTransferEncoding
+                + self.pattern_encoding_types 
+                + '.*' + self.patternBase64,
             '(' + self.patternContentTypeHtml + ').*\n'
-                + self.patternTransferEncoding + '.*\n' + self.patternHtml
+                + self.patternTransferEncoding 
+                + self.pattern_encoding_types 
+                + '.*\n' + self.patternHtml
         ]
         matches = self._match_pattern_list(pattern_list)
         for match_obj in matches:
