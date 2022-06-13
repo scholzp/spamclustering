@@ -59,7 +59,7 @@ class Payload:
         result = 'This is an payload-object of an email message.\n'
         result += 'Start in mail: ' + str(self.start)
         result += '\nEnd in mail: ' + str(self.end) + '\n'
-        result += 'Payload:' + self.content[:10] + '[...]'
+        result += 'Payload:\n' + self.content[:10] + '[...]'
         result += self.content[len(self.content) - 10:] + '\n'
         str_c_type = ''
         match self.content_type:
@@ -156,6 +156,13 @@ class ExtentedEmailMessage:
             case _:
                 return ContentType.UNDEFINED
 
+    def __str__(self):
+        result = 'This is an ExtendedMail object. \n'
+        result += 'It contains the following payloads:\n'
+        for payload in self.payload_list:
+            result += str(payload)
+            result += '-----------------------------------------------------\n'
+        return result
 
 def main():
     argv = sys.argv
@@ -168,7 +175,8 @@ def main():
     #   if not (message.is_multipart()):
         extMessage = ExtentedEmailMessage(message)
         extMessage.extract_payload()
-        print(extMessage.payload_list[0].to_utf8())
+        print(extMessage)
+#        print(extMessage.payload_list[0].to_utf8())
     else:
         print("Path was not given")
 
