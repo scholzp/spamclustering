@@ -134,7 +134,6 @@ class ExtentedEmailMessage:
     def __init__(self, message):
         self.email_message = message
         self.payload_list = []
-
         self.mail_from = message.get('From')
         self.mail_to = message.get('To')
         self.mail_sender = message.get('Sender')
@@ -201,11 +200,101 @@ class ExtentedEmailMessage:
                 return ContentType.UNDEFINED
 
     def __str__(self):
-        result = 'This is an ExtendedMail object. \n'
+        result = 'This is an ExtendedEmailMessage object. \n'
+        if self.mail_from:
+            result += 'From        : ' + self.mail_from + '\n'
+        if self.mail_sender:
+            result += 'Sender      : ' + self.mail_sender + '\n'
+        if self.mail_to:
+            result += 'To          : ' + self.mail_to + '\n'
+        if self.mail_subject:
+            result += 'Subject     : ' + self.mail_subject + '\n'
+        if self.mail_thread_topic:
+            result += 'Thread-Topic: ' + self.mail_thread_topic + '\n'
         result += 'It contains the following payloads:\n'
         for payload in self.payload_list:
             result += str(payload)
             result += '-----------------------------------------------------\n'
+        return result
+
+class MailAnonymizer:
+    extended_mail = None
+
+    def __init__(self, extended_mail):
+        self.extended_mail = extended_mail
+
+    def anonymize(self):
+        print(self.extended_mail)
+        fake = Faker()
+        mail_to = self.extended_mail.mail_to
+        from_dict = self._split_from_into_word_list(mail_to)
+        self._find_replacements(from_dict)
+        print(self.extended_mail)
+        self._anonymize_payload(from_dict)
+        #print(self.extended_mail)
+
+    def _anonymize_payload(self, replacement_dict):
+        for payload in self.extended_mail.payload_list:
+            print(payload)
+            if (payload.content_type == ContentType.PLAINTEXT) or \
+               (payload.content_type == ContentType.HTMLTEXT):
+                string = payload.to_utf8()
+                for key in replacement_dict.keys():
+                    string = string.replace(key, replacement_dict[key])
+        payload.set_text_content(string)
+
+    def _find_replacements(self, key_list):
+        fake = Faker()
+        for key in key_list:
+            new_value = ''
+            match key_list[key]:
+                case 'name':
+                    new_value = fake.first_name()
+                case 'email':
+                    new_value = fake.ascii_safe_email()
+            key_list.update({key: new_value})
+
+
+    def _split_from_into_word_list(self, from_string):
+        result = dict()
+        # first convert to lower case
+        string = from_string.lower()
+        # Use the following regex to find name and/or email address of the
+        # recipient. The regex recognises one of the follwing three patterns:
+        #   form of header | pattern
+        #   ---------------+-----------------------
+        #   name only      | "surename, forename "
+        #   email only     | <mail.address@domain.second.example>
+        #   email and name | "forename surename" <mail@domain.example>
+        #
+        # Mail addresses can contain an unspecified number of subdomains. Names
+        # must consist of at least two words. Both can contain alphanumeric
+        # characters. If the name part matches, a group with id 'name' will be
+        # returned by the match object. Analog with the email pattern, of which
+        # the id is 'email'.
+        regexp = re.compile(r"""
+            (?:"?
+                (?P<name>              # assign group name 'name'
+                    \w+,?(?:\s\w+)+    # match fore-and lastname
+                )                      # can be comma serpated
+            "?)?                       # omit if only mail is to be matched
+            \s?                        # space between mail adress and name
+            (?:<?
+                (?P<email>             # asssign group name 'email'
+                    \w+(\.?\w+)*@\w+(?:\.\w+)+  # match email
+                )
+             >?)?                      # omit if only name is to be matched
+            """, re.X)
+        match_result = regexp.search(string)
+
+        # create a list of potential word which should be replaced
+        match_group_keys = ['name', 'email']
+        for key in match_group_keys:
+            group_result = match_result.groupdict()[key]
+            if group_result:
+                for word in group_result.split():
+                    result[word.rstrip(',')] = key
+
         return result
 
 def main():
@@ -219,8 +308,8 @@ def main():
     #   if not (message.is_multipart()):
         extMessage = ExtentedEmailMessage(message)
         extMessage.extract_payload()
-        #print(extMessage)
-        print(extMessage.payload_list[0].to_utf8())
+        anonymizer = MailAnonymizer(extMessage)
+        anonymizer.anonymize()
     else:
         print("Path was not given")
 
