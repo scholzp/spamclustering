@@ -28,4 +28,15 @@
 
 # 07.05.2022
 
-* bash script zum Verarbeiten mehrer PST Dateien.
+* bash script zum Verarbeiten mehrer PST Dateien
+
+# Meeting 15.06.2022
+
+### Fragen
+* Wir haben gesagt, dass wenn To und From gleich sind, wir beide löschen. Es
+  jedoch Mails, in denen beides gleich ist und es sich bei diesen Adressen um
+  Spam handelt.
+* Theoretisch kann es im Body auch Telefonummern geben. Diese können für Scam
+  genutzt werden oder Teil eines Fooders sein. Wie damit umgehen?
+
+### Notizen
