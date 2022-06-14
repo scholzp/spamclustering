@@ -86,6 +86,11 @@ class Payload:
 class ExtentedEmailMessage:
     email_message = None
     payload_list = []
+    mail_from = None
+    mail_to = None
+    mail_sender = None
+    mail_subject = None
+    mail_thread_topic = None
 
     # some pattern strings to create regular expressions from
     patternHtml = '(<html.*/html>)'
@@ -98,6 +103,12 @@ class ExtentedEmailMessage:
     def __init__(self, message):
         self.email_message = message
         self.payload_list = []
+
+        self.mail_from = message.get('From')
+        self.mail_to = message.get('To')
+        self.mail_sender = message.get('Sender')
+        self.mail_subject = message.get('Subject')
+        self.mail_thread_topic = message.get('Thread-Topic')
 
     def extract_payload(self):
         matches = []
