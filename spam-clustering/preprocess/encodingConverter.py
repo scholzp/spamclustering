@@ -1,10 +1,11 @@
 import sys
 import re
 import base64
+import quopri
 
 from enum import Enum
 from mailIo import mailIo
-
+from faker import Faker
 
 class ContentType(Enum):
     ''' Enum type to denote content type of a mails payload
@@ -43,17 +44,47 @@ class Payload:
 
     def decode(self):
         result = ''
+        content_bytes = bytes(self.content, 'utf-8')
+        print('Decode:', content_bytes)
         match self.encoding_type:
             case Encoding.BASE64:
-                result = base64.decodebytes(bytes(self.content, 'utf-8'))
+                result = base64.decodebytes(content_bytes)
+            case Encoding.QUOTEDPRINTABLE:
+                result = quopri.decodestring(content_bytes)
+        return result
+
+    def do_transfer_encoding(self, content_bytes):
+        result = ''
+        print(content_bytes)
+        match self.encoding_type:
+            case Encoding.BASE64:
+                result = base64.encodebytes(content_bytes)
+            case Encoding.QUOTEDPRINTABLE:
+                result = quopri.encodestring(content_bytes)
         return result
 
     def to_utf8(self):
         result = None
-        if ContentType.PLAINTEXT == self.content_type:
-            base64_bytes = self.decode()
-            result = base64_bytes.decode(self.charset, 'ignore')
+        content_bytes = self.decode()
+        match self.content_type:
+            case ContentType.PLAINTEXT:
+                result = content_bytes.decode(self.charset, 'ignore')
+            case ContentType.HTMLTEXT:
+                result = content_bytes.decode('utf-8', 'ignore')
         return result
+
+    def set_text_content(self, text):
+        # first encode the text into the original charset
+        content = ''
+        match self.content_type:
+            case ContentType.PLAINTEXT:
+                content = bytes(text.encode(self.charset))
+                content = self.do_transfer_encoding(content)
+                self.content = str(content, self.charset)
+            case ContentType.HTMLTEXT:
+                content = bytes(text.encode('utf-8'))
+                content = self.do_transfer_encoding(content)
+                self.content = str(content, 'utf-8')
 
     def __str__(self):
         result = 'This is an payload-object of an email message.\n'
