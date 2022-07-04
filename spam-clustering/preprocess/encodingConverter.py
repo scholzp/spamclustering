@@ -2,6 +2,7 @@ import sys
 import re
 import base64
 import quopri
+import email
 
 from enum import Enum
 from mailIo import mailIo
@@ -45,7 +46,7 @@ class Payload:
     def decode(self):
         result = ''
         content_bytes = bytes(self.content, 'utf-8')
-        print('Decode:', content_bytes)
+       # print('Decode:', content_bytes)
         match self.encoding_type:
             case Encoding.BASE64:
                 result = base64.decodebytes(content_bytes)
@@ -55,7 +56,7 @@ class Payload:
 
     def do_transfer_encoding(self, content_bytes):
         result = ''
-        print(content_bytes)
+        #print(content_bytes)
         match self.encoding_type:
             case Encoding.BASE64:
                 result = base64.encodebytes(content_bytes)
@@ -134,11 +135,7 @@ class ExtentedEmailMessage:
     def __init__(self, message):
         self.email_message = message
         self.payload_list = []
-        self.mail_from = message.get('From')
-        self.mail_to = message.get('To')
-        self.mail_sender = message.get('Sender')
-        self.mail_subject = message.get('Subject')
-        self.mail_thread_topic = message.get('Thread-Topic')
+        self._extract_meta_headers()
 
     def extract_payload(self):
         matches = []
@@ -156,6 +153,47 @@ class ExtentedEmailMessage:
         for match_obj in matches:
             self.payload_list.append(
                 self._create_payload_from_match(match_obj))
+
+    def update_content(self):
+        serialized_email = self.email_message.as_string()
+        # sort list by payload.start, so that the can be replaced inplace in
+        # the string.
+        # key must be callable -> call lambda which returns start
+        self.payload_list.sort(key=lambda h: (Payload.start))
+        # offset stores the delta of length if the content moved to the front
+        # or to the back because of indifferences between the original
+        # content's length and the length of the new one.
+        offset = 0
+        for payload in self.payload_list:
+            start = payload.start + offset
+            end = payload.end + offset
+            serialized_email = serialized_email[:start] + \
+                payload.content + \
+                serialized_email[end:]
+            orig_len = end - start
+            # update offset and start/end values respective to length delta of
+            # preceeding payloads
+            if (len(payload.content)) != orig_len:
+                payload.start += offset
+                offset = orig_len - len(payload.content)
+                payload.end += offset
+            print('Offset:', offset)
+        parser = email.parser.Parser(policy=email.policy.default)
+        # we might have now a completely different message, so we should do the
+        # initializing process again to override data of the old message
+        self.email_message = parser.parsestr(serialized_email)
+        self._extract_meta_headers()
+        self.payload_list = []
+        self.extract_payload()
+
+    def _extract_meta_headers(self):
+        message = self.email_message
+        self.mail_from = message.get('From')
+        self.mail_to = message.get('To')
+        self.mail_sender = message.get('Sender')
+        self.mail_subject = message.get('Subject')
+        self.mail_thread_topic = message.get('Thread-Topic')
+
 
     def _match_pattern_list(self, pattern_list):
         result = []
@@ -225,17 +263,42 @@ class MailAnonymizer:
 
     def anonymize(self):
         print(self.extended_mail)
-        fake = Faker()
         mail_to = self.extended_mail.mail_to
-        from_dict = self._split_from_into_word_list(mail_to)
-        self._find_replacements(from_dict)
-        print(self.extended_mail)
-        self._anonymize_payload(from_dict)
-        #print(self.extended_mail)
+        key_dict = self._split_from_into_word_list(mail_to)
+        key_dict.update(self._find_phone_numbers())
+        self._find_replacements(key_dict)
+        self._anonymize_payload(key_dict)
+        self.extended_mail.update_content()
+
+    def _find_phone_numbers(self):
+        phone_regex = re.compile(r"""
+            \+?         # optional + before country code
+            \d{1,4}?    # country code
+            [-.\s]?     # delimiter after after country code
+            \(?         # optional opening bracket
+            \d{1,3}?    # area code
+            \)?         # optional closing bracket after area code
+            [-.\s]?     # optional delimiter after area code
+            \d{1,4}     # begin of phone number with optional delimiters
+            [-.\s]?
+            \d{1,4}
+            [-.\s]?
+            \d{2,9}
+            """,
+                                 re.X)
+        result = dict()
+        for payload in self.extended_mail.payload_list:
+            if (payload.content_type == ContentType.PLAINTEXT) or \
+               (payload.content_type == ContentType.HTMLTEXT):
+                string = payload.to_utf8()
+                numbers = phone_regex.findall(string)
+                for number in numbers:
+                    result[number] = 'phone'
+        return result
 
     def _anonymize_payload(self, replacement_dict):
+        print(replacement_dict)
         for payload in self.extended_mail.payload_list:
-            print(payload)
             if (payload.content_type == ContentType.PLAINTEXT) or \
                (payload.content_type == ContentType.HTMLTEXT):
                 string = payload.to_utf8()
@@ -252,13 +315,14 @@ class MailAnonymizer:
                     new_value = fake.first_name()
                 case 'email':
                     new_value = fake.ascii_safe_email()
+                case 'phone':
+                    new_value = fake.phone_number()
             key_list.update({key: new_value})
-
 
     def _split_from_into_word_list(self, from_string):
         result = dict()
         # first convert to lower case
-        string = from_string.lower()
+        string = from_string
         # Use the following regex to find name and/or email address of the
         # recipient. The regex recognises one of the follwing three patterns:
         #   form of header | pattern
@@ -305,11 +369,11 @@ def main():
         print('Using "', argv[1], '"as input file\n\n')
         fn = argv[1]
         message = mailIo.readMailFromEmlFile(fn)
-    #   if not (message.is_multipart()):
         extMessage = ExtentedEmailMessage(message)
         extMessage.extract_payload()
         anonymizer = MailAnonymizer(extMessage)
         anonymizer.anonymize()
+        mailIo.writeMessageToEml(extMessage.email_message, fn + '_.eml')
     else:
         print("Path was not given")
 
