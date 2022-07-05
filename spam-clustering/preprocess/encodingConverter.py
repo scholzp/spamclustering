@@ -202,10 +202,9 @@ class ExtentedEmailMessage:
         return result
 
     def _create_payload_from_match(self, match_obj):
-        start = match_obj.start()
-        end = match_obj.end()
+        start = match_obj.start(3)
+        end = match_obj.end(3)
         content = match_obj.group(3)
-       # print(content)
         content_type = self._retrieve_content_type(match_obj)
         transfer_encoding = self._retrieve_encoding(match_obj)
         payload = Payload(start, end, content, content_type, transfer_encoding)
