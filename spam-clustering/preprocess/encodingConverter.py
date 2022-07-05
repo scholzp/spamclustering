@@ -46,7 +46,6 @@ class Payload:
     def decode(self):
         result = ''
         content_bytes = bytes(self.content, 'utf-8')
-       # print('Decode:', content_bytes)
         match self.encoding_type:
             case Encoding.BASE64:
                 result = base64.decodebytes(content_bytes)
@@ -56,7 +55,6 @@ class Payload:
 
     def do_transfer_encoding(self, content_bytes):
         result = ''
-        #print(content_bytes)
         match self.encoding_type:
             case Encoding.BASE64:
                 result = base64.encodebytes(content_bytes)
@@ -177,7 +175,6 @@ class ExtentedEmailMessage:
                 payload.start += offset
                 offset = orig_len - len(payload.content)
                 payload.end += offset
-            print('Offset:', offset)
         parser = email.parser.Parser(policy=email.policy.default)
         # we might have now a completely different message, so we should do the
         # initializing process again to override data of the old message
@@ -262,7 +259,6 @@ class MailAnonymizer:
         self.extended_mail = extended_mail
 
     def anonymize(self):
-        print(self.extended_mail)
         mail_to = self.extended_mail.mail_to
         key_dict = self._split_from_into_word_list(mail_to)
         key_dict.update(self._find_phone_numbers())
@@ -297,7 +293,6 @@ class MailAnonymizer:
         return result
 
     def _anonymize_payload(self, replacement_dict):
-        print(replacement_dict)
         for payload in self.extended_mail.payload_list:
             if (payload.content_type == ContentType.PLAINTEXT) or \
                (payload.content_type == ContentType.HTMLTEXT):
@@ -305,6 +300,7 @@ class MailAnonymizer:
                 for key in replacement_dict.keys():
                     string = string.replace(key, replacement_dict[key])
         payload.set_text_content(string)
+
 
     def _find_replacements(self, key_list):
         fake = Faker()
