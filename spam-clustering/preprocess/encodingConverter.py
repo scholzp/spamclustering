@@ -8,6 +8,7 @@ from enum import Enum
 from mailIo import mailIo
 from faker import Faker
 
+
 class ContentType(Enum):
     ''' Enum type to denote content type of a mails payload
     '''
@@ -31,7 +32,7 @@ class Payload:
     content = None
     content_type = None
     encoding_type = None
-    charset = None
+    charset = 'utf-8'
 
     def __init__(self, start, end, content, content_type, encoding_type):
         self.start = start
@@ -45,12 +46,12 @@ class Payload:
 
     def decode(self):
         result = ''
-        content_bytes = bytes(self.content, 'utf-8')
         match self.encoding_type:
             case Encoding.BASE64:
+                content_bytes = bytes(self.content, 'utf-8')
                 result = base64.decodebytes(content_bytes)
             case Encoding.QUOTEDPRINTABLE:
-                result = quopri.decodestring(content_bytes)
+                result = quopri.decodestring(self.content)
         return result
 
     def do_transfer_encoding(self, content_bytes):
@@ -69,7 +70,7 @@ class Payload:
             case ContentType.PLAINTEXT:
                 result = content_bytes.decode(self.charset, 'ignore')
             case ContentType.HTMLTEXT:
-                result = content_bytes.decode('utf-8', 'ignore')
+                result = content_bytes.decode(self.charset, 'ignore')
         return result
 
     def set_text_content(self, text):
@@ -81,9 +82,9 @@ class Payload:
                 content = self.do_transfer_encoding(content)
                 self.content = str(content, self.charset)
             case ContentType.HTMLTEXT:
-                content = bytes(text.encode('utf-8'))
+                content = bytes(text.encode(self.charset))
                 content = self.do_transfer_encoding(content)
-                self.content = str(content, 'utf-8')
+                self.content = str(content, self.charset)
 
     def __str__(self):
         result = 'This is an payload-object of an email message.\n'
@@ -96,7 +97,7 @@ class Payload:
             case ContentType.PLAINTEXT:
                 str_c_type = 'Plaintext, charset: ' + self.charset
             case ContentType.HTMLTEXT:
-                str_c_type = 'HTML'
+                str_c_type = 'HTML, charset: ' + self.charset
             case ContentType.UNDEFINED:
                 str_c_type = 'Undefined'
 
@@ -191,7 +192,6 @@ class ExtentedEmailMessage:
         self.mail_subject = message.get('Subject')
         self.mail_thread_topic = message.get('Thread-Topic')
 
-
     def _match_pattern_list(self, pattern_list):
         result = []
         serialized_email = self.email_message.as_string()
@@ -209,10 +209,12 @@ class ExtentedEmailMessage:
         transfer_encoding = self._retrieve_encoding(match_obj)
         payload = Payload(start, end, content, content_type, transfer_encoding)
         if payload.content_type == ContentType.PLAINTEXT:
-            pattern = 'charset=\"(.*)\"'
-            charset_match = re.search(pattern, match_obj.group(0))
-            if charset_match:
-                payload.set_charset(charset_match.group(1))
+            pattern = 'charset=\"(?P<charset>[a-zA-Z0-9-_]+)\"'
+        elif payload.content_type == ContentType.HTMLTEXT:
+            pattern = 'charset=3D(?P<charset>[a-zA-Z0-9-_]+)'
+        charset_match = re.search(pattern, match_obj.group(0))
+        if charset_match:
+            payload.set_charset(charset_match.group('charset'))
         return payload
 
     def _retrieve_encoding(self, match_obj):
@@ -250,6 +252,7 @@ class ExtentedEmailMessage:
             result += str(payload)
             result += '-----------------------------------------------------\n'
         return result
+
 
 class MailAnonymizer:
     extended_mail = None
@@ -299,7 +302,6 @@ class MailAnonymizer:
                 for key in replacement_dict.keys():
                     string = string.replace(key, replacement_dict[key])
         payload.set_text_content(string)
-
 
     def _find_replacements(self, key_list):
         fake = Faker()
@@ -355,6 +357,7 @@ class MailAnonymizer:
                     result[word.rstrip(',')] = key
 
         return result
+
 
 def main():
     argv = sys.argv
