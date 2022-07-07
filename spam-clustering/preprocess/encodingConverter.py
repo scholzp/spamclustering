@@ -117,11 +117,14 @@ class Payload:
 class ExtentedEmailMessage:
     email_message = None
     payload_list = []
-    mail_from = None
-    mail_to = None
-    mail_sender = None
-    mail_subject = None
-    mail_thread_topic = None
+
+    header_dict = {
+        'From': None,
+        'To': None,
+        'Sender': None,
+        'Subject': None,
+        'Thread-Topic': None
+    }
 
     # some pattern strings to create regular expressions from
     patternHtml = '(<html.*/html>)'
@@ -186,11 +189,8 @@ class ExtentedEmailMessage:
 
     def _extract_meta_headers(self):
         message = self.email_message
-        self.mail_from = message.get('From')
-        self.mail_to = message.get('To')
-        self.mail_sender = message.get('Sender')
-        self.mail_subject = message.get('Subject')
-        self.mail_thread_topic = message.get('Thread-Topic')
+        for key in self.header_dict:
+            self.header_dict[key] = message.get(key)
 
     def _match_pattern_list(self, pattern_list):
         result = []
@@ -237,16 +237,8 @@ class ExtentedEmailMessage:
 
     def __str__(self):
         result = 'This is an ExtendedEmailMessage object. \n'
-        if self.mail_from:
-            result += 'From        : ' + self.mail_from + '\n'
-        if self.mail_sender:
-            result += 'Sender      : ' + self.mail_sender + '\n'
-        if self.mail_to:
-            result += 'To          : ' + self.mail_to + '\n'
-        if self.mail_subject:
-            result += 'Subject     : ' + self.mail_subject + '\n'
-        if self.mail_thread_topic:
-            result += 'Thread-Topic: ' + self.mail_thread_topic + '\n'
+        for key in self.header_dict.keys():
+            result += "{0}: {1}\n ".format(key, self.header_dict[key])
         result += 'It contains the following payloads:\n'
         for payload in self.payload_list:
             result += str(payload)
@@ -261,7 +253,7 @@ class MailAnonymizer:
         self.extended_mail = extended_mail
 
     def anonymize(self):
-        mail_to = self.extended_mail.mail_to
+        mail_to = self.extended_mail.header_dict['To']
         key_dict = self._split_from_into_word_list(mail_to)
         key_dict.update(self._find_phone_numbers())
         self._find_replacements(key_dict)
@@ -371,7 +363,8 @@ def main():
         extMessage.extract_payload()
         anonymizer = MailAnonymizer(extMessage)
         anonymizer.anonymize()
-        mailIo.writeMessageToEml(extMessage.email_message, fn + '_.eml')
+        print(extMessage)
+       # mailIo.writeMessageToEml(extMessage.email_message, fn + '_.eml')
     else:
         print("Path was not given")
 
