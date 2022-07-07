@@ -183,9 +183,17 @@ class ExtentedEmailMessage:
         # we might have now a completely different message, so we should do the
         # initializing process again to override data of the old message
         self.email_message = parser.parsestr(serialized_email)
+        self._update_meta_headers()
         self._extract_meta_headers()
         self.payload_list = []
         self.extract_payload()
+
+    def _update_meta_headers(self):
+        message = self.email_message
+        for key in self.header_dict.keys():
+            if message.get(key):
+                message.replace_header(key, self.header_dict[key])
+        self.email_message = message
 
     def _extract_meta_headers(self):
         message = self.email_message
