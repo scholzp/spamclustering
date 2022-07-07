@@ -10,7 +10,7 @@ from faker import Faker
 
 
 class ContentType(Enum):
-    ''' Enum type to denote content type of a mails payload
+    ''' Enum type to denote content type of a mail's payload
     '''
     UNDEFINED = 0
     PLAINTEXT = 1
