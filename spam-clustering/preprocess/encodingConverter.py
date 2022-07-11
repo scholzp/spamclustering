@@ -270,7 +270,9 @@ class MailAnonymizer:
         key_dict.update(self._find_phone_numbers())
         self._find_replacements(key_dict)
         self._anonymize_payload(key_dict)
+        self._anonymize_mail_headers(key_dict)
         self.extended_mail.update_content()
+        self._anonymize_plain(key_dict)
 
     def _find_phone_numbers(self):
         phone_regex = re.compile(r"""
@@ -305,7 +307,21 @@ class MailAnonymizer:
                 string = payload.to_utf8()
                 for key in replacement_dict.keys():
                     string = string.replace(key, replacement_dict[key])
-        payload.set_text_content(string)
+                payload.set_text_content(string)
+
+    def _anonymize_mail_headers(self, replacement_dict):
+        for header in self.extended_mail.header_dict.keys():
+            header_value = self.extended_mail.header_dict[header]
+            for key in replacement_dict.keys():
+                header_value = header_value.replace(key, replacement_dict[key])
+            self.extended_mail.header_dict[header] = header_value
+
+    def _anonymize_plain(self, replacement_dict):
+        mail_string = self.extended_mail.email_message.as_string()
+        for key in replacement_dict.keys():
+            mail_string.replace(key, replacement_dict[key])
+        parser = email.parser.Parser(policy=email.policy.default)
+        self.extended_mail.email_message = parser.parsestr(mail_string)
 
     def _find_replacements(self, key_list):
         fake = Faker()
@@ -375,8 +391,7 @@ def main():
         extMessage.extract_payload()
         anonymizer = MailAnonymizer(extMessage)
         anonymizer.anonymize()
-        print(extMessage)
-       # mailIo.writeMessageToEml(extMessage.email_message, fn + '_.eml')
+        mailIo.writeMessageToEml(extMessage.email_message, fn + '_.eml')
     else:
         print("Path was not given")
 
