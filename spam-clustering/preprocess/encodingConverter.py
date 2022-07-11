@@ -166,23 +166,27 @@ class ExtentedEmailMessage:
         # or to the back because of indifferences between the original
         # content's length and the length of the new one.
         offset = 0
+        result = ''
+        prev_end = 0
         for payload in self.payload_list:
-            start = payload.start + offset
-            end = payload.end + offset
-            serialized_email = serialized_email[:start] + \
-                payload.content + \
-                serialized_email[end:]
-            orig_len = end - start
+            orig_start = payload.start
+            orig_end = payload.end
+            result += serialized_email[prev_end:orig_start]
+            result += payload.content
+            prev_end = orig_end
+            orig_len = orig_end - orig_start
             # update offset and start/end values respective to length delta of
             # preceeding payloads
             if (len(payload.content)) != orig_len:
                 payload.start += offset
                 offset = orig_len - len(payload.content)
                 payload.end += offset
+        if len(serialized_email) > prev_end:
+            result += serialized_email[prev_end:]
         parser = email.parser.Parser(policy=email.policy.default)
         # we might have now a completely different message, so we should do the
         # initializing process again to override data of the old message
-        self.email_message = parser.parsestr(serialized_email)
+        self.email_message = parser.parsestr(result)
         self._update_meta_headers()
         self._extract_meta_headers()
         self.payload_list = []
