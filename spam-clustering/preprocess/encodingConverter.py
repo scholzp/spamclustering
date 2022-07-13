@@ -335,6 +335,8 @@ class MailAnonymizer:
     def _anonymize_mail_headers(self, replacement_dict):
         for header in self.extended_mail.header_dict.keys():
             header_value = self.extended_mail.header_dict[header]
+            if header_value is None:
+                continue
             for key in replacement_dict.keys():
                 header_value = header_value.replace(key, replacement_dict[key])
             self.extended_mail.header_dict[header] = header_value
