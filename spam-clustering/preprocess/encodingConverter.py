@@ -269,7 +269,7 @@ class MailAnonymizer:
 
     def anonymize(self):
         mail_to = self.extended_mail.header_dict['To']
-        key_dict = self._split_from_into_word_list(mail_to)
+        key_dict = self._split_to_into_word_list(mail_to)
         key_dict.update(self._include_block_list())
         key_dict.update(self._find_phone_numbers())
         self._find_replacements(key_dict)
@@ -366,7 +366,7 @@ class MailAnonymizer:
 
             replacement_candidates.update({to_replace: new_value})
 
-    def _split_from_into_word_list(self, from_string):
+    def _split_to_into_word_list(self, from_string):
         result = dict()
         # first convert to lower case
         string = from_string
