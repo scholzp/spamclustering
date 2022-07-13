@@ -260,19 +260,42 @@ class ExtentedEmailMessage:
 
 class MailAnonymizer:
     extended_mail = None
+    global_replacement_buffer = {}
+    block_list = ()
 
-    def __init__(self, extended_mail):
+    def __init__(self, extended_mail, block_list=None):
         self.extended_mail = extended_mail
+        self.block_list = block_list
 
     def anonymize(self):
         mail_to = self.extended_mail.header_dict['To']
         key_dict = self._split_from_into_word_list(mail_to)
+        key_dict.update(self._include_block_list())
         key_dict.update(self._find_phone_numbers())
         self._find_replacements(key_dict)
+        key_dict.update(self.global_replacement_buffer)
         self._anonymize_payload(key_dict)
         self._anonymize_mail_headers(key_dict)
         self.extended_mail.update_content()
         self._anonymize_plain(key_dict)
+    
+    def _include_block_list(self):
+        result = {}
+        if self.block_list is None:
+            return result
+
+        # create a reeeealy large string of the mail to search for any item of
+        # the block list
+        search_target = self.extended_mail.email_message.as_string()
+        for payload in self.extended_mail.payload_list:
+            search_target += payload.to_utf8()
+
+        # now search for any item which could match with the block list
+        for item in self.block_list:
+            regex = re.compile('[a-zA-Z0-9_\-\.]+@[a-zA-Z0-9_\-\.]*'+item)
+            for hit in regex.findall(search_target):
+                result[hit] = 'email'
+        return result
 
     def _find_phone_numbers(self):
         phone_regex = re.compile(r"""
@@ -319,22 +342,27 @@ class MailAnonymizer:
     def _anonymize_plain(self, replacement_dict):
         mail_string = self.extended_mail.email_message.as_string()
         for key in replacement_dict.keys():
-            mail_string.replace(key, replacement_dict[key])
+            mail_string = mail_string.replace(key, replacement_dict[key])
         parser = email.parser.Parser(policy=email.policy.default)
         self.extended_mail.email_message = parser.parsestr(mail_string)
 
-    def _find_replacements(self, key_list):
+    def _find_replacements(self, replacement_candidates):
         fake = Faker()
-        for key in key_list:
+        for to_replace in replacement_candidates:
             new_value = ''
-            match key_list[key]:
+            match replacement_candidates[to_replace]:
                 case 'name':
                     new_value = fake.first_name()
                 case 'email':
                     new_value = fake.ascii_safe_email()
                 case 'phone':
                     new_value = fake.phone_number()
-            key_list.update({key: new_value})
+            if 'name' != replacement_candidates[to_replace]:
+                if to_replace not in self.global_replacement_buffer.keys():
+                    self.global_replacement_buffer.update({to_replace:
+                                                           new_value})
+
+            replacement_candidates.update({to_replace: new_value})
 
     def _split_from_into_word_list(self, from_string):
         result = dict()
@@ -384,12 +412,21 @@ def main():
     argc = len(sys.argv)
     if argc > 0:
         print('This script was started as main for debuging purposes.')
-        print('Using "', argv[1], '"as input file\n\n')
+        print('Using "', argv[1], '"as input file')
         fn = argv[1]
         message = mailIo.readMailFromEmlFile(fn)
         extMessage = ExtentedEmailMessage(message)
         extMessage.extract_payload()
-        anonymizer = MailAnonymizer(extMessage)
+        block_list = list()
+        if len(argv) > 2:
+            print("Reading block list from...", argv[2])
+            with open(argv[2], 'r') as block_file:
+                line = block_file.readline()
+                while line:
+                    line = line.strip()
+                    block_list.append(line)
+                    line = block_file.readline()
+        anonymizer = MailAnonymizer(extMessage, block_list)
         anonymizer.anonymize()
         mailIo.writeMessageToEml(extMessage.email_message, fn + '_.eml')
     else:
