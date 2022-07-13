@@ -268,8 +268,10 @@ class MailAnonymizer:
         self.block_list = block_list
 
     def anonymize(self):
+        key_dict = {}
         mail_to = self.extended_mail.header_dict['To']
-        key_dict = self._split_to_into_word_list(mail_to)
+        if mail_to != self.extended_mail.header_dict['From']:
+            key_dict.update(self.split_to_into_word_list(mail_to))
         key_dict.update(self._include_block_list())
         key_dict.update(self._find_phone_numbers())
         self._find_replacements(key_dict)
@@ -278,7 +280,7 @@ class MailAnonymizer:
         self._anonymize_mail_headers(key_dict)
         self.extended_mail.update_content()
         self._anonymize_plain(key_dict)
-    
+
     def _include_block_list(self):
         result = {}
         if self.block_list is None:
