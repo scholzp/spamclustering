@@ -271,7 +271,7 @@ class MailAnonymizer:
         key_dict = {}
         mail_to = self.extended_mail.header_dict['To']
         if mail_to != self.extended_mail.header_dict['From']:
-            key_dict.update(self.split_to_into_word_list(mail_to))
+            key_dict.update(self._split_to_into_word_list(mail_to))
         key_dict.update(self._include_block_list())
         key_dict.update(self._find_phone_numbers())
         self._find_replacements(key_dict)
