@@ -3,6 +3,7 @@ import re
 import base64
 import quopri
 import email
+import os
 
 from enum import Enum
 from mailIo import mailIo
@@ -267,7 +268,7 @@ class MailAnonymizer:
     global_replacement_buffer = {}
     block_list = ()
 
-    def __init__(self, extended_mail, block_list=None):
+    def __init__(self, extended_mail=None, block_list=None):
         self.extended_mail = extended_mail
         self.block_list = block_list
 
@@ -424,9 +425,15 @@ def main():
         print('This script was started as main for debuging purposes.')
         print('Using "', argv[1], '"as input file')
         fn = argv[1]
-        message = mailIo.readMailFromEmlFile(fn)
-        extMessage = ExtentedEmailMessage(message)
-        extMessage.extract_payload()
+        file_list = list()
+        if os.path.isdir(fn):
+            print('Input is directoy...')
+            file_list = filter(lambda i: (os.path.splitext(i)[1] == '.eml'),
+                                os.listdir(fn))
+            file_list = [os.path.join(fn, file) for file in file_list]
+            print(file_list)
+        else:
+            file_list = [fn]
         block_list = list()
         if len(argv) > 2:
             print("Reading block list from...", argv[2])
@@ -436,9 +443,22 @@ def main():
                     line = line.strip()
                     block_list.append(line)
                     line = block_file.readline()
-        anonymizer = MailAnonymizer(extMessage, block_list)
-        anonymizer.anonymize()
-        mailIo.writeMessageToEml(extMessage.email_message, fn + '_.eml')
+        anonymizer = MailAnonymizer(None, block_list)
+        list_len = len(file_list)
+        count = 1
+        for file in file_list:
+            print('[{0}|{1}] Processing {2}'.format(count, list_len, file))
+            try:
+                message = mailIo.readMailFromEmlFile(file)
+                extMessage = ExtentedEmailMessage(message)
+                extMessage.extract_payload()
+                anonymizer.extended_mail = extMessage
+                anonymizer.anonymize()
+            except UnicodeEncodeError:
+                print('Mail {} is illformed and therefore skipped!'.format(
+                    file))
+            count += 1
+        #mailIo.writeMessageToEml(extMessage.email_message, '_'+fn)
     else:
         print("Path was not given")
 
