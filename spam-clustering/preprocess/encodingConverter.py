@@ -157,7 +157,8 @@ class ExtentedEmailMessage:
                 self._create_payload_from_match(match_obj))
 
     def update_content(self):
-        serialized_email = self.email_message.as_string()
+        serialized_email = self.email_message.as_bytes().decode('utf-8', 
+                                                                'ignore')
         # sort list by payload.start, so that the can be replaced inplace in
         # the string.
         # key must be callable -> call lambda which returns start
@@ -206,7 +207,8 @@ class ExtentedEmailMessage:
 
     def _match_pattern_list(self, pattern_list):
         result = []
-        serialized_email = self.email_message.as_string()
+        serialized_email = self.email_message.as_bytes().decode('utf-8',
+                                                                'ignore')
         for pattern in pattern_list:
             regexp = re.compile(pattern, re.S)
             for match_obj in regexp.finditer(serialized_email):
@@ -223,10 +225,12 @@ class ExtentedEmailMessage:
         if payload.content_type == ContentType.PLAINTEXT:
             pattern = 'charset=\"(?P<charset>[a-zA-Z0-9-_]+)\"'
         elif payload.content_type == ContentType.HTMLTEXT:
-            pattern = 'charset=3D(?P<charset>[a-zA-Z0-9-_]+)'
+            pattern = \
+                'charset=3D(?P<charset>[a-zA-Z0-9-_]+(=\n[a-zA-z0-9-_]*)?)'
         charset_match = re.search(pattern, match_obj.group(0))
         if charset_match:
-            payload.set_charset(charset_match.group('charset'))
+            char_set = quopri.decodestring(charset_match.group('charset'))
+            payload.set_charset(str(char_set, 'utf-8').strip())
         return payload
 
     def _retrieve_encoding(self, match_obj):
@@ -288,7 +292,8 @@ class MailAnonymizer:
 
         # create a reeeealy large string of the mail to search for any item of
         # the block list
-        search_target = self.extended_mail.email_message.as_string()
+        search_target = self.extended_mail.email_message.as_bytes().decode(
+                                'utf-8', 'ignore')
         for payload in self.extended_mail.payload_list:
             search_target += payload.to_utf8()
 
@@ -344,7 +349,8 @@ class MailAnonymizer:
             self.extended_mail.header_dict[header] = header_value
 
     def _anonymize_plain(self, replacement_dict):
-        mail_string = self.extended_mail.email_message.as_string()
+        mail_string = self.extended_mail.email_message.as_bytes().decode(
+                                'utf-8', 'ignore')
         for key in replacement_dict.keys():
             mail_string = mail_string.replace(key, replacement_dict[key])
         parser = email.parser.Parser(policy=email.policy.default)
