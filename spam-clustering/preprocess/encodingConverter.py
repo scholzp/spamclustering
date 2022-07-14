@@ -398,13 +398,13 @@ class MailAnonymizer:
         regexp = re.compile(r"""
             (?:"?
                 (?P<name>              # assign group name 'name'
-                    \w+,?(?:\s\w+)+    # match fore-and lastname
+                    [\w\-]+,?(?:\s[\w\-]+)+    # match fore-and lastname
                 )                      # can be comma serpated
             "?)?                       # omit if only mail is to be matched
             \s?                        # space between mail adress and name
             (?:<?
                 (?P<email>             # asssign group name 'email'
-                    \w+(\.?\w+)*@\w+(?:\.\w+)+  # match email
+                    [\w\-]+(\.?[\w\-]+)*@[\w\-]+(?:\.\w+)+  # match email
                 )
              >?)?                      # omit if only name is to be matched
             """, re.X)
