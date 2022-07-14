@@ -377,6 +377,9 @@ class MailAnonymizer:
 
     def _split_to_into_word_list(self, from_string):
         result = dict()
+        if from_string is None:
+            return result
+
         # first convert to lower case
         string = from_string
         # Use the following regex to find name and/or email address of the
@@ -405,6 +408,7 @@ class MailAnonymizer:
                 )
              >?)?                      # omit if only name is to be matched
             """, re.X)
+        print(string)
         match_result = regexp.search(string)
 
         # create a list of potential word which should be replaced
