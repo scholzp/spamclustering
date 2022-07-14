@@ -408,7 +408,6 @@ class MailAnonymizer:
                 )
              >?)?                      # omit if only name is to be matched
             """, re.X)
-        print(string)
         match_result = regexp.search(string)
 
         # create a list of potential word which should be replaced
