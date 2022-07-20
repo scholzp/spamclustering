@@ -165,7 +165,7 @@ class ExtentedEmailMessage:
                 self._create_payload_from_match(match_obj))
 
     def update_content(self):
-        serialized_email = self.email_message.as_bytes().decode('utf-8', 
+        serialized_email = self.email_message.as_bytes().decode('utf-8',
                                                                 'ignore')
         # sort list by payload.start, so that the can be replaced inplace in
         # the string.
@@ -218,10 +218,8 @@ class ExtentedEmailMessage:
         serialized_email = self.email_message.as_bytes().decode('utf-8',
                                                                 'ignore')
         for pattern in pattern_list:
-            #print(pattern)
             regexp = re.compile(pattern)
             for match_obj in regexp.finditer(serialized_email):
-               # print(match_obj)
                 result.append(match_obj)
         return result
 
