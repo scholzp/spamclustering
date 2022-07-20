@@ -366,21 +366,22 @@ class MailAnonymizer:
 
     def _find_replacements(self, replacement_candidates):
         fake = Faker()
+        new_values = {}
         for to_replace in replacement_candidates:
-            new_value = ''
             match replacement_candidates[to_replace]:
                 case 'name':
-                    new_value = fake.first_name()
+                    fake_name = fake.first_name()
+                    new_values[to_replace] = fake_name
+                    new_values[to_replace.lower()] = fake_name
+                    new_values[to_replace.upper()] = fake_name
                 case 'email':
-                    new_value = fake.ascii_safe_email()
+                    new_values[to_replace] = fake.ascii_safe_email()
                 case 'phone':
-                    new_value = fake.phone_number()
+                    new_values[to_replace] = fake.phone_number()
             if 'name' != replacement_candidates[to_replace]:
                 if to_replace not in self.global_replacement_buffer.keys():
-                    self.global_replacement_buffer.update({to_replace:
-                                                           new_value})
-
-            replacement_candidates.update({to_replace: new_value})
+                    self.global_replacement_buffer.update(new_values)
+        replacement_candidates.update(new_values)
 
     def _split_to_into_word_list(self, from_string):
         result = dict()
@@ -424,7 +425,6 @@ class MailAnonymizer:
             if group_result:
                 for word in group_result.split():
                     result[word.rstrip(',')] = key
-
         return result
 
 
