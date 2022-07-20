@@ -128,8 +128,8 @@ class ExtentedEmailMessage:
     }
 
     # some pattern strings to create regular expressions from
-    patternHtml = '(<html.*/html>)'
-    patternBase64 = '\n((?:[a-zA-Z0-9=]|\n)+)\n'
+    patternHtml = '(<html(?:.|\s)*/html>)'
+    patternBase64 = '((?:(?:(?:[a-zA-Z0-9=/+]{4})+)\s)+)'
     patternContentTypePlain = 'Content-Type: text/plain'
     patternContentTypeHtml = 'Content-Type: text/html'
     patternTransferEncoding = 'Content-Transfer-Encoding: '
@@ -144,13 +144,20 @@ class ExtentedEmailMessage:
         matches = []
         pattern_list = [
             '(' + self.patternContentTypePlain + ').*\n'
+                + '\s*charset=\"(?:[a-zA-Z0-9-_]+)\"\s*'
                 + self.patternTransferEncoding
                 + self.pattern_encoding_types
-                + '(?:.*:.*\n)?' + self.patternBase64,
+                + '(?:.*:.*\n)*\s' + self.patternBase64,
             '(' + self.patternContentTypeHtml + ').*\n'
+                + '\s*charset=\"(?:[a-zA-Z0-9-_]+)\"\s*'
                 + self.patternTransferEncoding
                 + self.pattern_encoding_types
-                + '.*\n' + self.patternHtml
+                + '(?:.*:.*\n)*\s' + self.patternBase64,
+            '(' + self.patternContentTypeHtml + ').*\s'
+                + '(?:\s*[-.;\w"]+=[-.;\w"]+\s*)*'
+                + self.patternTransferEncoding
+                + self.pattern_encoding_types
+                + '\s*' + self.patternHtml
         ]
         matches = self._match_pattern_list(pattern_list)
         for match_obj in matches:
@@ -211,8 +218,10 @@ class ExtentedEmailMessage:
         serialized_email = self.email_message.as_bytes().decode('utf-8',
                                                                 'ignore')
         for pattern in pattern_list:
-            regexp = re.compile(pattern, re.S)
+            #print(pattern)
+            regexp = re.compile(pattern)
             for match_obj in regexp.finditer(serialized_email):
+               # print(match_obj)
                 result.append(match_obj)
         return result
 
