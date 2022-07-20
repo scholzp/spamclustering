@@ -307,7 +307,7 @@ class MailAnonymizer:
 
         # now search for any item which could match with the block list
         for item in self.block_list:
-            regex = re.compile('[a-zA-Z0-9_\-\.]+@[a-zA-Z0-9_\-\.]*'+item)
+            regex = re.compile('[-a-zA-Z0-9_.]+@[-a-zA-Z0-9_.]*'+item)
             for hit in regex.findall(search_target):
                 result[hit] = 'email'
         return result
