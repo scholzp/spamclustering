@@ -433,21 +433,30 @@ def main():
     argc = len(sys.argv)
     if argc > 0:
         print('This script was started as main for debuging purposes.')
-        print('Using "', argv[1], '"as input file')
+        print('Using "', argv[1], '"as input.')
         fn = argv[1]
         file_list = list()
         if os.path.isdir(fn):
             print('Input is directoy...')
             file_list = filter(lambda i: (os.path.splitext(i)[1] == '.eml'),
-                                os.listdir(fn))
+                               os.listdir(fn))
             file_list = [os.path.join(fn, file) for file in file_list]
-            print(file_list)
+        #    print(file_list)
         else:
             file_list = [fn]
         block_list = list()
         if len(argv) > 2:
-            print("Reading block list from...", argv[2])
-            with open(argv[2], 'r') as block_file:
+            out_path = argv[2]
+            if os.path.isdir(out_path):
+                print('Writing output to', out_path)
+            else:
+                create = input(out_path + ' does not exist. Create? [y|n]')
+                if create == 'y':
+                    os.mkdir(out_path)
+
+        if len(argv) > 3:
+            print("Reading block list from...", argv[3])
+            with open(argv[3], 'r') as block_file:
                 line = block_file.readline()
                 while line:
                     line = line.strip()
@@ -456,6 +465,7 @@ def main():
         anonymizer = MailAnonymizer(None, block_list)
         list_len = len(file_list)
         count = 1
+        error_log = list()
         for file in file_list:
             print('[{0}|{1}] Processing {2}'.format(count, list_len, file))
             try:
@@ -464,11 +474,17 @@ def main():
                 extMessage.extract_payload()
                 anonymizer.extended_mail = extMessage
                 anonymizer.anonymize()
+                out_file = os.path.join(out_path, os.path.split(file)[1])
+                mailIo.writeMessageToEml(extMessage.email_message, out_file)
             except UnicodeEncodeError:
-                print('Mail {} is illformed and therefore skipped!'.format(
-                    file))
+                error_string = \
+                    'Mail {} is illformed and therefore skipped!'.format(file)
+                error_log += error_string + '\n'
+                print(error_string)
             count += 1
-        #mailIo.writeMessageToEml(extMessage.email_message, '_'+fn)
+            log_path = os.path.join(out_path, 'error_log.txt')
+        with open(log_path, 'w') as log_file:
+            log_file.writelines(error_log)
     else:
         print("Path was not given")
 
