@@ -53,6 +53,8 @@ class Payload:
                 result = base64.decodebytes(content_bytes)
             case Encoding.QUOTEDPRINTABLE:
                 result = quopri.decodestring(self.content)
+            case _:
+                result = bytes(self.content, 'utf-8')
         return result
 
     def do_transfer_encoding(self, content_bytes):
@@ -62,6 +64,8 @@ class Payload:
                 result = base64.encodebytes(content_bytes)
             case Encoding.QUOTEDPRINTABLE:
                 result = quopri.encodestring(content_bytes)
+            case _:
+                result = content_bytes
         return result
 
     def to_utf8(self):
@@ -242,7 +246,9 @@ class ExtentedEmailMessage:
         return payload
 
     def _retrieve_encoding(self, match_obj):
-        match match_obj.group(2):
+        if match_obj is None:
+            return Encoding.UNDEFINED
+        match match_obj.group('Encoding'):
             case 'base64':
                 return Encoding.BASE64
             case 'quoted-printable':
@@ -251,6 +257,8 @@ class ExtentedEmailMessage:
                 return Encoding.UNDEFINED
 
     def _retrieve_content_type(self, match_obj):
+        if match_obj is None:
+            return ContentType.UNDEFINED
         match match_obj.group(1):
             case self.patternContentTypePlain:
                 return ContentType.PLAINTEXT
@@ -441,7 +449,6 @@ def main():
             file_list = filter(lambda i: (os.path.splitext(i)[1] == '.eml'),
                                os.listdir(fn))
             file_list = [os.path.join(fn, file) for file in file_list]
-        #    print(file_list)
         else:
             file_list = [fn]
         block_list = list()
