@@ -132,12 +132,19 @@ class ExtentedEmailMessage:
     }
 
     # some pattern strings to create regular expressions from
-    patternHtml = '(<html(?:.|\s)*/html>)'
-    patternBase64 = '((?:(?:(?:[a-zA-Z0-9=/+]{4})+)\s)+)'
+    # Because of bad design decisions the html pattern contains a pattern for 
+    # quoted printable encoded and plain text. TODO: rework all regular
+    # expression to split the taks of searching for payload and header data
+    patternHtml = '(?P<Content>(<html(?:.|\s)*/html>)|' + \
+                  '(<=?\s?h=?\s?t=?\s?m=?\s?l=?\s?>(?:.\s)*' + \
+                  '/=?\s?h=?\s?t=?\s?m=?\s?l=?\s?>))'
+    patternBase64 = '\n(?P<Content>(?:(?:(?:[a-zA-Z0-9=/+]{4})+)\n)+)'
     patternContentTypePlain = 'Content-Type: text/plain'
     patternContentTypeHtml = 'Content-Type: text/html'
     patternTransferEncoding = 'Content-Transfer-Encoding: '
-    pattern_encoding_types = '(base64|quoted-printable)\n'
+    pattern_encoding_types = '(?P<Encoding>base64|quoted-printable)\n'
+    patternQuoted = \
+        '\n\n(?P<Content>([a-zA-Z0-9>?@\[\]^_`{|}~!"#$%&\'()*+,\-./:;<]|\S)*)'
 
     def __init__(self, message):
         self.email_message = message
