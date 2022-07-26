@@ -561,11 +561,20 @@ def main():
                 anonymizer.anonymize()
                 out_file = os.path.join(out_path, os.path.split(file)[1])
                 mailIo.writeMessageToEml(extMessage.email_message, out_file)
-            except UnicodeEncodeError:
+            except UnicodeEncodeError as u_error:
                 error_string = \
                     'Mail {} is illformed and therefore skipped!'.format(file)
-                error_log += error_string + '\n'
+                error_log += error_string + str(u_error) + '\n'
                 print(error_string)
+            except ValueError as v_error:
+                error_string = \
+                    'Mail {} produced a ValueError:{}'.format(file, 
+                                                              str(v_error))
+                error_log += error_string + '\n'
+                error_log += "Content of mail:\n"
+                error_log += str(extMessage.header_dict) + '\n'
+                print(error_string)
+                
             count += 1
             log_path = os.path.join(out_path, 'error_log.txt')
         with open(log_path, 'w') as log_file:
