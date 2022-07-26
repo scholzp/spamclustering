@@ -281,12 +281,11 @@ class ExtentedEmailMessage:
                 result.append(match_obj)
         return result
 
-    def _create_payload_from_match(self, match_obj):
+    def _create_payload_from_match(self, match_obj, content_type,
+                                   transfer_encoding):
         start = match_obj.start(3)
         end = match_obj.end(3)
         content = match_obj.group(3)
-        content_type = self._retrieve_content_type(match_obj)
-        transfer_encoding = self._retrieve_encoding(match_obj)
         payload = Payload(start, end, content, content_type, transfer_encoding)
         if payload.content_type == ContentType.PLAINTEXT:
             pattern = 'charset=\"(?P<charset>[a-zA-Z0-9-_]+)\"'
@@ -400,29 +399,36 @@ class MailAnonymizer:
                     result[number] = 'phone'
         return result
 
-    def _anonymize_payload(self, replacement_dict):
+    def _perform_replacement(self, target_string):
+        result = target_string
+        for key in self.key_list:
+            replacement_target = key
+            replacement = self.key_dict[key]
+            replacement_target = re.escape(replacement_target)
+            replacement_re = re.compile(replacement_target)
+            result = replacement_re.subn(replacement, result)[0]
+        return result
+
+    def _anonymize_payload(self):
         for payload in self.extended_mail.payload_list:
             if (payload.content_type == ContentType.PLAINTEXT) or \
                (payload.content_type == ContentType.HTMLTEXT):
                 string = payload.to_utf8()
-                for key in replacement_dict.keys():
-                    string = string.replace(key, replacement_dict[key])
+                string = self._perform_replacement(string)
                 payload.set_text_content(string)
 
-    def _anonymize_mail_headers(self, replacement_dict):
+    def _anonymize_mail_headers(self):
         for header in self.extended_mail.header_dict.keys():
             header_value = self.extended_mail.header_dict[header]
             if header_value is None:
                 continue
-            for key in replacement_dict.keys():
-                header_value = header_value.replace(key, replacement_dict[key])
+            header_value = self._perform_replacement(header_value)
             self.extended_mail.header_dict[header] = header_value
 
-    def _anonymize_plain(self, replacement_dict):
+    def _anonymize_plain(self):
         mail_string = self.extended_mail.email_message.as_bytes().decode(
                                 'utf-8', 'ignore')
-        for key in replacement_dict.keys():
-            mail_string = mail_string.replace(key, replacement_dict[key])
+        mail_string = self._perform_replacement(mail_string)
         parser = email.parser.Parser(policy=email.policy.default)
         self.extended_mail.email_message = parser.parsestr(mail_string)
 
@@ -434,6 +440,7 @@ class MailAnonymizer:
                 case 'name':
                     fake_name = fake.first_name()
                     new_values[to_replace] = fake_name
+                    new_values[to_replace.capitalize()] = fake_name
                     new_values[to_replace.lower()] = fake_name
                     new_values[to_replace.upper()] = fake_name
                 case 'email':
@@ -443,6 +450,9 @@ class MailAnonymizer:
             if 'name' != replacement_candidates[to_replace]:
                 if to_replace not in self.global_replacement_buffer.keys():
                     self.global_replacement_buffer.update(new_values)
+            if to_replace in self.global_replacement_buffer.keys():
+                new_values[to_replace] = self.global_replacement_buffer[
+                                                                    to_replace]
         replacement_candidates.update(new_values)
 
     def _split_to_into_word_list(self, from_string):
@@ -474,19 +484,25 @@ class MailAnonymizer:
             \s?                        # space between mail adress and name
             (?:<?
                 (?P<email>             # asssign group name 'email'
-                    [\w\-]+(\.?[\w\-]+)*@[\w\-]+(?:\.\w+)+  # match email
+                    [_\w\-]+(\.?[_\w\-]+)*@[_\w\-]+(\.[-_\w]+)+  # match email
                 )
              >?)?                      # omit if only name is to be matched
             """, re.X)
         match_result = regexp.search(string)
 
-        # create a list of potential word which should be replaced
+        # create a list of potential words which should be replaced
         match_group_keys = ['name', 'email']
         for key in match_group_keys:
             group_result = match_result.groupdict()[key]
             if group_result:
-                for word in group_result.split():
-                    result[word.rstrip(',')] = key
+                if key == 'name':
+                    for word in group_result.split():
+                        result[word.rstrip(',')] = key
+                elif key == 'email':
+                    result[group_result.split('@')[0]] = 'name'
+                    for name in group_result.split('@')[0].split('.'):
+                        result[name] = 'name'
+                    result[group_result] = key
         return result
 
 
