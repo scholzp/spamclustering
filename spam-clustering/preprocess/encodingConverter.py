@@ -335,24 +335,30 @@ class MailAnonymizer:
     extended_mail = None
     global_replacement_buffer = {}
     block_list = ()
+    key_list = list()
+    key_dict = dict()
 
     def __init__(self, extended_mail=None, block_list=None):
         self.extended_mail = extended_mail
         self.block_list = block_list
 
     def anonymize(self):
-        key_dict = {}
+        self.key_dict = {}
         mail_to = self.extended_mail.header_dict['To']
         if mail_to != self.extended_mail.header_dict['From']:
-            key_dict.update(self._split_to_into_word_list(mail_to))
-        key_dict.update(self._include_block_list())
-        key_dict.update(self._find_phone_numbers())
-        self._find_replacements(key_dict)
-        key_dict.update(self.global_replacement_buffer)
-        self._anonymize_payload(key_dict)
-        self._anonymize_mail_headers(key_dict)
+            self.key_dict.update(self._split_to_into_word_list(mail_to))
+        self.key_dict.update(self._include_block_list())
+        self.key_dict.update(self._find_phone_numbers())
+        self._find_replacements(self.key_dict)
+        # we want to replace in a greedy manner and because we don't want to
+        # sort all keys every time we need them, we will store a copy of the
+        # keys as a list
+        self.key_list = list(self.key_dict)
+        self.key_list.sort(key=lambda h: len(h), reverse=True)
+        self._anonymize_payload()
+        self._anonymize_mail_headers()
         self.extended_mail.update_content()
-        self._anonymize_plain(key_dict)
+        self._anonymize_plain()
 
     def _include_block_list(self):
         result = {}
