@@ -374,9 +374,11 @@ class MailAnonymizer:
 
         # now search for any item which could match with the block list
         for item in self.block_list:
-            regex = re.compile('[-a-zA-Z0-9_.]+@[-a-zA-Z0-9_.]*'+item)
+            regex = re.compile('[-a-zA-Z0-9_.]+@[-a-zA-Z0-9_.]*' +
+                               re.escape(item))
             for hit in regex.findall(search_target):
                 result[hit] = 'email'
+                result.update(self._split_to_into_word_list(hit))
         return result
 
     def _find_phone_numbers(self):
