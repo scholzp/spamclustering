@@ -153,27 +153,74 @@ class ExtentedEmailMessage:
 
     def extract_payload(self):
         matches = []
-        pattern_list = [
-            '(' + self.patternContentTypePlain + ').*\n'
-                + '\s*charset=\"(?:[a-zA-Z0-9-_]+)\"\s*'
-                + self.patternTransferEncoding
-                + self.pattern_encoding_types
-                + '(?:.*:.*\n)*\s' + self.patternBase64,
-            '(' + self.patternContentTypeHtml + ').*\n'
-                + '\s*charset=\"(?:[a-zA-Z0-9-_]+)\"\s*'
-                + self.patternTransferEncoding
-                + self.pattern_encoding_types
-                + '(?:.*:.*\n)*\s' + self.patternBase64,
-            '(' + self.patternContentTypeHtml + ').*\s'
-                + '(?:\s*[-.;\w"]+=[-.;\w"]+\s*)*'
-                + self.patternTransferEncoding
-                + self.pattern_encoding_types
-                + '\s*' + self.patternHtml
-        ]
-        matches = self._match_pattern_list(pattern_list)
-        for match_obj in matches:
-            self.payload_list.append(
-                self._create_payload_from_match(match_obj))
+        if self.email_message.get_content_maintype() == 'multipart':
+            pattern_list = [
+                '(' + self.patternContentTypePlain + ').*\n'
+                    + '\s*charset=\"(?:[a-zA-Z0-9_-]+)\"\n'
+                    + self.patternTransferEncoding
+                    + self.pattern_encoding_types
+                    + '(?:.+\n)*'
+                    + self.patternBase64,
+                '(' + self.patternContentTypeHtml + ').*\n'
+                    + '\s*charset=\"(?:[a-zA-Z0-9-_]+)\"\s*'
+                    + self.patternTransferEncoding
+                    + self.pattern_encoding_types
+                    + '(?:.*:.*\n)*' + self.patternBase64,
+                '(' + self.patternContentTypeHtml + ').*\s'
+                    + '(?:\s*[-.;\w"]+=[-.;\w"]+\s*)*'
+                    + self.patternTransferEncoding
+                    + self.pattern_encoding_types
+                    + '\s*' + self.patternHtml
+            ]
+            matches = self._match_pattern_list(pattern_list)
+            for match_obj in matches:
+                transfer_encoding = self._retrieve_encoding(match_obj)
+                content_type = self._retrieve_content_type(match_obj)
+                self.payload_list.append(
+                    self._create_payload_from_match(match_obj, content_type,
+                                                    transfer_encoding))
+        else:
+            content_type = ContentType.UNDEFINED
+            content_charset = ''
+            serialized_email = self.email_message.as_bytes().decode('utf-8',
+                                                                    'ignore')
+            match self.email_message.get_content_type():
+                case 'text/plain':
+                    content_type = ContentType.PLAINTEXT
+                case 'text/html':
+                    content_type = ContentType.HTMLTEXT
+                case _:
+                    content_type = ContentType.UNDEFINED
+                    return
+            encoding_re = re.compile(self.pattern_encoding_types)
+            match_obj = encoding_re.search(serialized_email)
+            content_encoding = self._retrieve_encoding(match_obj)
+            match content_encoding:
+                case Encoding.BASE64:
+                    content_re = re.compile(self.patternBase64)
+                    content_charset = re.compile(
+                            '\s*charset=\"([a-zA-Z0-9_-]+)\"\n').search(
+                                                        serialized_email)
+                case Encoding.QUOTEDPRINTABLE:
+                    content_re = re.compile(self.patternQuoted)
+                    pattern = '\s*charset=\"([a-zA-Z0-9_-]+)\"\n'
+                    if content_type == ContentType.HTMLTEXT:
+                        pattern = 'charset=3D(?P<charset>[a-zA-Z20-9-_]+' +\
+                                  '(=\n[a-zA-z0-9-_]*)?)'
+                    content_charset = re.search(pattern, serialized_email)
+                case _:
+                    content_charset = re.search('charset=(.*)',
+                                                'charset=utf-8')
+                    content_re = re.compile(self.patternQuoted)
+            content_match = content_re.search(serialized_email)
+            content = content_match.group('Content')
+            start = content_match.start()
+            end = content_match.end()
+            payload = Payload(start, end, content, content_type, 
+                              content_encoding)
+            payload.set_charset(re.subn(r'=\n', '',
+                                        content_charset.group(1))[0])
+            self.payload_list.append(payload)
 
     def update_content(self):
         serialized_email = self.email_message.as_bytes().decode('utf-8',
