@@ -132,7 +132,7 @@ class ExtentedEmailMessage:
     }
 
     # some pattern strings to create regular expressions from
-    # Because of bad design decisions the html pattern contains a pattern for 
+    # Because of bad design decisions the html pattern contains a pattern for
     # quoted printable encoded and plain text. TODO: rework all regular
     # expression to split the taks of searching for payload and header data
     patternHtml = '(?P<Content>(<html(?:.|\s)*/html>)|' + \
@@ -216,7 +216,7 @@ class ExtentedEmailMessage:
             content = content_match.group('Content')
             start = content_match.start()
             end = content_match.end()
-            payload = Payload(start, end, content, content_type, 
+            payload = Payload(start, end, content, content_type,
                               content_encoding)
             payload.set_charset(re.subn(r'=\n', '',
                                         content_charset.group(1))[0])
@@ -568,13 +568,12 @@ def main():
                 print(error_string)
             except ValueError as v_error:
                 error_string = \
-                    'Mail {} produced a ValueError:{}'.format(file, 
+                    'Mail {} produced a ValueError:{}'.format(file,
                                                               str(v_error))
                 error_log += error_string + '\n'
                 error_log += "Content of mail:\n"
                 error_log += str(extMessage.header_dict) + '\n'
                 print(error_string)
-                
             count += 1
             log_path = os.path.join(out_path, 'error_log.txt')
         with open(log_path, 'w') as log_file:
