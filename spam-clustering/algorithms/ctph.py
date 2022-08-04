@@ -5,6 +5,9 @@ import shutil
 import ssdeep
 
 
+DEEPCOPY = False
+
+
 class SpamCluster:
     """ Helper class storing cluster information.
     """
@@ -48,7 +51,10 @@ class SpamCluster:
         for source_file in self.cluster_members:
             file_dest = os.path.join(cluster_path, os.path.split(
                                                             source_file)[1])
-            shutil.copy(source_file, file_dest)
+            if DEEPCOPY is True:
+                shutil.copy(source_file, file_dest)
+            else:
+                os.symlink(source_file, file_dest)
         if len(self.cluster_members) > 1:
             print(self.uuid)
 
