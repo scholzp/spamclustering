@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>spamclustering.algorithms package &mdash; spamclustering  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="spamclustering.benchmarking package" href="spamclustering.benchmarking.html" />
+    <link rel="prev" title="spamclustering package" href="spamclustering.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> spamclustering
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">spamclustering</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="spamclustering.html">spamclustering package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="spamclustering.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">spamclustering.algorithms package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spamclustering.benchmarking.html">spamclustering.benchmarking package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spamclustering.mailIo.html">spamclustering.mailIo package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spamclustering.mboxReader.html">spamclustering.mboxReader package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="spamclustering.preprocess.html">spamclustering.preprocess package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="spamclustering.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spamclustering.html#module-spamclustering.test">spamclustering.test module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spamclustering.html#module-spamclustering">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">spamclustering</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="modules.html">spamclustering</a> &raquo;</li>
+          <li><a href="spamclustering.html">spamclustering package</a> &raquo;</li>
+      <li>spamclustering.algorithms package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/spamclustering.algorithms.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="spamclustering-algorithms-package">
+<h1>spamclustering.algorithms package<a class="headerlink" href="#spamclustering-algorithms-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-spamclustering.algorithms.ctph">
+<span id="spamclustering-algorithms-ctph-module"></span><h2>spamclustering.algorithms.ctph module<a class="headerlink" href="#module-spamclustering.algorithms.ctph" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="spamclustering.algorithms.ctph.ClusteringAlgorithm">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">spamclustering.algorithms.ctph.</span></span><span class="sig-name descname"><span class="pre">ClusteringAlgorithm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.algorithms.ctph.ClusteringAlgorithm" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Base class for clustering algorithms.</p>
+<p>Implements some boiler plate code for writing clusters to disk.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="spamclustering.algorithms.ctph.ClusteringAlgorithm.do_clustering">
+<span class="sig-name descname"><span class="pre">do_clustering</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.algorithms.ctph.ClusteringAlgorithm.do_clustering" title="Permalink to this definition"></a></dt>
+<dd><p>Performs the class specific clustering algorithm.</p>
+<p>The base class creates one cluster and adds all items to this cluster.
+This function is to be overwritten by classes which inherited from
+ClusteringAlgorithm and implement own clustering algorithms.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="spamclustering.algorithms.ctph.ClusteringAlgorithm.write_cluster_to_disk">
+<span class="sig-name descname"><span class="pre">write_cluster_to_disk</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.algorithms.ctph.ClusteringAlgorithm.write_cluster_to_disk" title="Permalink to this definition"></a></dt>
+<dd><p>Writes all clusters in cluster_dict to disk.</p>
+<p>Path is specified through self.output_path, which was set when calling
+the respective constructor. Needs to be set otherwise.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="spamclustering.algorithms.ctph.Ctph">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">spamclustering.algorithms.ctph.</span></span><span class="sig-name descname"><span class="pre">Ctph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">85</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.algorithms.ctph.Ctph" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#spamclustering.algorithms.ctph.ClusteringAlgorithm" title="spamclustering.algorithms.ctph.ClusteringAlgorithm"><code class="xref py py-class docutils literal notranslate"><span class="pre">ClusteringAlgorithm</span></code></a></p>
+<p>Implements context triggered piecewise hash algorithm.</p>
+<p>The actual hashing and compare algorithms are provided by the library
+ssdeep, developed by Jesse Kornblum. This c library is used with python
+bindings which can be installed pypi ssdeep package. If the similarity
+score of two hash values are greater than a threshold value, they will
+potentially grouped in one cluster. An email is only added to the cluster
+containing the mail with the greatest similarity score.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_list</strong> (<em>str</em><em> or </em><em>list of str</em>) – List of file names to process.</p></li>
+<li><p><strong>output_path</strong> (<em>str</em>) – Path to the location to which all cluster should be
+written to.</p></li>
+<li><p><strong>threshold_value</strong> (<em>int</em><em> or </em><em>float</em>) – Threshold of matching score. If matching score is
+greater, the files are considered a match.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="spamclustering.algorithms.ctph.Ctph.do_clustering">
+<span class="sig-name descname"><span class="pre">do_clustering</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.algorithms.ctph.Ctph.do_clustering" title="Permalink to this definition"></a></dt>
+<dd><p>Concrete implementation specific to the algorithm.</p>
+<p>For further details on the algorithm, read the class doc string.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="spamclustering.algorithms.ctph.SpamCluster">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">spamclustering.algorithms.ctph.</span></span><span class="sig-name descname"><span class="pre">SpamCluster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.algorithms.ctph.SpamCluster" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Helper class which stores cluster information.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>uuid</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">uuid.uuid</span></code>) – UUID of this
+<code class="xref py py-class docutils literal notranslate"><span class="pre">spamclustering.algorithms.ctph.Spamcluster</span></code>.</p></li>
+<li><p><strong>path</strong> (<em>str</em>) – Path to where this cluster is to be written to.</p></li>
+<li><p><strong>cluster_members</strong> (<em>list of str</em>) – List of filenames representing files added to this
+cluster</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="spamclustering.algorithms.ctph.SpamCluster.add">
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">files</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.algorithms.ctph.SpamCluster.add" title="Permalink to this definition"></a></dt>
+<dd><p>Add files to the cluster.
+This function will append the given file(s) to the cluster’s file list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>files</strong> (<em>str</em><em>, </em><em>list of str</em>) – List of file names to add to this cluster, or a string
+for a single file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="spamclustering.algorithms.ctph.SpamCluster.write_to_path">
+<span class="sig-name descname"><span class="pre">write_to_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.algorithms.ctph.SpamCluster.write_to_path" title="Permalink to this definition"></a></dt>
+<dd><p>Write this cluster to the desired path.</p>
+<p>The destination path was stated when calling the constructor. Within
+this path, a directory will be created with the UUID of this cluster as
+name. All files belonging to this cluster will either be copied or
+respective symbolic links will created.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="spamclustering.algorithms.ctph.main">
+<span class="sig-prename descclassname"><span class="pre">spamclustering.algorithms.ctph.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.algorithms.ctph.main" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-spamclustering.algorithms">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-spamclustering.algorithms" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="spamclustering.html" class="btn btn-neutral float-left" title="spamclustering package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="spamclustering.benchmarking.html" class="btn btn-neutral float-right" title="spamclustering.benchmarking package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Pascal Scholz.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
