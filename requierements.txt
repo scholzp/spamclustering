@@ -2,3 +2,4 @@ numpy
 ssdeep
 pandas
 faker
+sphinx
