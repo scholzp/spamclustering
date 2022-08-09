@@ -53,7 +53,7 @@
 </section>
 <section id="documentation">
 <h1>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading">¶</a></h1>
-<p>Documentation is located at <code class="docutils literal notranslate"><span class="pre">docs/</span></code>. Prebuild HTML documatation is available. Building documatation in other document fomats is supported, see <code class="docutils literal notranslate"><span class="pre">Building</span> <span class="pre">documentation</span></code>.</p>
+<p>Documentation is located at <code class="docutils literal notranslate"><span class="pre">docs/</span></code>. Prebuild HTML documatation is available at <code class="docutils literal notranslate"><span class="pre">docs/build/html</span></code>. Building documatation in other document fomats is supported, see <code class="docutils literal notranslate"><span class="pre">Building</span> <span class="pre">documentation</span></code>.</p>
 <section id="building-documentation">
 <h2>Building documentation<a class="headerlink" href="#building-documentation" title="Permalink to this heading">¶</a></h2>
 <p>Documentation is build and managed thorugh the help of <a class="reference external" href="https://www.sphinx-doc.org/en/master/">Sphinx</a>. See sphinx documentation for more help. Running <code class="docutils literal notranslate"><span class="pre">requierements.txt</span></code> will install Sphinx. Sphinx has different <a class="reference external" href="https://www.sphinx-doc.org/en/master/man/sphinx-build.html">builders</a> available by default. For html build, simply execute</p>
@@ -80,17 +80,23 @@
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>python -m spamclustering.example_mboxReader -i &lt;path_to_mbox&gt;/file.mbox -o &lt;path_to_output_dir&gt;
 </pre></div>
 </div>
-<p>##Anonymizing emails
-The example script will take a directory or single file as input argument via <code class="docutils literal notranslate"><span class="pre">&lt;path_to_dir1&gt;</span></code>. After performing the necessary anonymization steps, the resulting <code class="docutils literal notranslate"><span class="pre">eml</span></code> files will be written to <code class="docutils literal notranslate"><span class="pre">&lt;path_to_result&gt;</span></code>. Optional arguments are a list of domains to block and a flag, which controls if the error log is written to a file. If both present, the <code class="docutils literal notranslate"><span class="pre">block</span> <span class="pre">list</span></code> must be the third argument. <code class="docutils literal notranslate"><span class="pre">block</span> <span class="pre">list</span></code> can be omitted, but this might produce errors. The log flag is either <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code>, while <code class="docutils literal notranslate"><span class="pre">False</span></code> is the default value. Setting <code class="docutils literal notranslate"><span class="pre">log=True</span></code> will result in a text file named <code class="docutils literal notranslate"><span class="pre">error_log.txt</span></code> located at <code class="docutils literal notranslate"><span class="pre">&lt;path_to_result&gt;</span></code>.</p>
+</section>
+<section id="anonymizing-emails">
+<h2>Anonymizing emails<a class="headerlink" href="#anonymizing-emails" title="Permalink to this heading">¶</a></h2>
+<p>The example script will take a directory or single file as input argument via <code class="docutils literal notranslate"><span class="pre">&lt;path_to_dir1&gt;</span></code>. After performing the necessary anonymization steps, the resulting <code class="docutils literal notranslate"><span class="pre">eml</span></code> files will be written to <code class="docutils literal notranslate"><span class="pre">&lt;path_to_result&gt;</span></code>. Optional arguments are a list of domains to block and a flag, which controls if the error log is written to a file. If both present, the <code class="docutils literal notranslate"><span class="pre">block</span> <span class="pre">list</span></code> must be the third argument. <code class="docutils literal notranslate"><span class="pre">block</span> <span class="pre">list</span></code> can be omitted, but this might produce errors. The log flag is either <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code>, while <code class="docutils literal notranslate"><span class="pre">False</span></code> is the default value. Setting <code class="docutils literal notranslate"><span class="pre">log=True</span></code> will result in a text file named <code class="docutils literal notranslate"><span class="pre">error_log.txt</span></code> located at <code class="docutils literal notranslate"><span class="pre">&lt;path_to_result&gt;</span></code>.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>python -m spamclustering.example_anonimzer &lt;path_to_dir1&gt; &lt;path_to_result&gt; test/domains.txt log=True
 </pre></div>
 </div>
-<p>##Diff of directories
-Compare both given directories and tries to find matches betweeen clusters (e.g. subdirectories of the given directories). These matches are later compared and diffs between the gold standard and the directory to compare are listed on directory basis.</p>
+</section>
+<section id="diff-of-directories">
+<h2>Diff of directories<a class="headerlink" href="#diff-of-directories" title="Permalink to this heading">¶</a></h2>
+<p>Compare both given directories and tries to find matches betweeen clusters (e.g. subdirectories of the given directories). These matches are later compared and diffs between the gold standard and the directory to compare are listed on directory basis.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>python -m spamclustering.example_difftool &lt;path_gold_standard&gt; &lt;path_to_compare&gt;
 </pre></div>
 </div>
-<p>##Algorithms</p>
+</section>
+<section id="algorithms">
+<h2>Algorithms<a class="headerlink" href="#algorithms" title="Permalink to this heading">¶</a></h2>
 <section id="context-triggered-piecewise-hash-ctph">
 <h3>Context triggered piecewise hash (CTPH)<a class="headerlink" href="#context-triggered-piecewise-hash-ctph" title="Permalink to this heading">¶</a></h3>
 <p>Performs clustering with the help of a context triggered piecewise hash function. Files found in <code class="docutils literal notranslate"><span class="pre">&lt;path_to_files&gt;</span></code> are processed, similar files are grouped in a cluster and the cluster is then written to <code class="docutils literal notranslate"><span class="pre">path_to_cluster_out</span></code>.</p>
@@ -117,7 +123,10 @@ Compare both given directories and tries to find matches betweeen clusters (e.g.
 </ul>
 </li>
 <li><a class="reference internal" href="#running-example-scripts">Running example scripts</a><ul>
-<li><a class="reference internal" href="#mboxreader">MBoxReader</a><ul>
+<li><a class="reference internal" href="#mboxreader">MBoxReader</a></li>
+<li><a class="reference internal" href="#anonymizing-emails">Anonymizing emails</a></li>
+<li><a class="reference internal" href="#diff-of-directories">Diff of directories</a></li>
+<li><a class="reference internal" href="#algorithms">Algorithms</a><ul>
 <li><a class="reference internal" href="#context-triggered-piecewise-hash-ctph">Context triggered piecewise hash (CTPH)</a></li>
 </ul>
 </li>
