@@ -1,10 +1,6 @@
 import email
 import os
 
-from email.iterators import _structure
-from email import parser
-from email import policy
-
 
 def writeMessageToEml(message, fn):
     """Use :class:`email.generator.Generator` to write the given message to the

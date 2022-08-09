@@ -1,11 +1,10 @@
-import mailbox
 import hashlib
+import mailbox
 import os
 import re
 
-from optparse import OptionParser
 from datetime import datetime
-from spamclustering.mailIo import mailIo
+from ..mailIo import mailIo
 
 
 def generateMailId(message):
@@ -78,41 +77,3 @@ def processMbox(inPath, outPath):
         fn = generateEmlFileName(message)
         fn = outDir + '/' + fn
         mailIo.writeMessageToEml(message, fn)
-
-
-def main():
-    usage = "usage %prog [options] arg"
-    parser = OptionParser(usage)
-    parser.add_option("-i", "--input", dest="ifFilename",
-                      help="Specifies file to process")
-    parser.add_option("-o", "--output", dest="ofFilename",
-                      help="Specifies directory to write results to")
-    parser.add_option("-d", "--directory", dest="isDir",
-                      help="Specifies if input is a directoy." +
-                           "If set, the program will process all files" +
-                           "in the directory. Not recursive, no " +
-                           "subdirectories will be searched.", default="False")
-
-    (opts, args) = parser.parse_args()
-    inFile = opts.ifFilename
-    ofFile = opts.ofFilename
-    isDir = opts.isDir
-
-    if not os.path.isfile(inFile):
-        print("Error: File", inFile, "does not exist or is an directory.",
-              "Inlcude -d switch if it's a directoy")
-        return 1
-
-    if os.path.isdir(ofFile):
-        print("Warning: ", ofFile, "does already exist")
-
-    if isDir == "True":
-        print("Process dir")
-        print("Not implemented yet! Run for each file without -d switch!")
-        return 0
-    elif isDir == "False":
-        processMbox(inFile, ofFile)
-
-
-if __name__ == "__main__":
-    main()
