@@ -10,6 +10,7 @@ Welcome to spamclustering's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   intro
    modules
 
 Indices and tables

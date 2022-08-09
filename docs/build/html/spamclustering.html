@@ -1,98 +1,63 @@
-<!DOCTYPE html>
-<html class="writer-html5" lang="en" >
-<head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>spamclustering package &mdash; spamclustering  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-    <script src="_static/js/theme.js"></script>
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>spamclustering package &#8212; spamclustering  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="spamclustering.algorithms package" href="spamclustering.algorithms.html" />
     <link rel="prev" title="spamclustering" href="modules.html" /> 
-</head>
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="spamclustering.algorithms.html" title="spamclustering.algorithms package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="spamclustering"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">spamclustering  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">spamclustering</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">spamclustering package</a></li> 
+      </ul>
+    </div>  
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> spamclustering
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">spamclustering</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">spamclustering package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="spamclustering.algorithms.html">spamclustering.algorithms package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="spamclustering.benchmarking.html">spamclustering.benchmarking package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="spamclustering.mailIo.html">spamclustering.mailIo package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="spamclustering.mboxReader.html">spamclustering.mboxReader package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="spamclustering.preprocess.html">spamclustering.preprocess package</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-spamclustering.test">spamclustering.test module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-spamclustering">Module contents</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-        </div>
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">spamclustering</a>
-      </nav>
-
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="modules.html">spamclustering</a> &raquo;</li>
-      <li>spamclustering package</li>
-      <li class="wy-breadcrumbs-aside">
-            <a href="_sources/spamclustering.rst.txt" rel="nofollow"> View page source</a>
-      </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
   <section id="spamclustering-package">
-<h1>spamclustering package<a class="headerlink" href="#spamclustering-package" title="Permalink to this heading"></a></h1>
+<h1>spamclustering package<a class="headerlink" href="#spamclustering-package" title="Permalink to this heading">¶</a></h1>
 <section id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h2>
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="spamclustering.algorithms.html">spamclustering.algorithms package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="spamclustering.algorithms.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spamclustering.algorithms.html#module-spamclustering.algorithms.clusteringalgorithm">spamclustering.algorithms.clusteringalgorithm module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="spamclustering.algorithms.html#module-spamclustering.algorithms.ctph">spamclustering.algorithms.ctph module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spamclustering.algorithms.html#module-spamclustering.algorithms.spamcluster">spamclustering.algorithms.spamcluster module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="spamclustering.algorithms.html#module-spamclustering.algorithms">Module contents</a></li>
 </ul>
 </li>
@@ -116,8 +81,9 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="spamclustering.preprocess.html">spamclustering.preprocess package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="spamclustering.preprocess.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spamclustering.preprocess.html#module-spamclustering.preprocess.anonymizer">spamclustering.preprocess.anonymizer module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spamclustering.preprocess.html#module-spamclustering.preprocess.encodingConverter">spamclustering.preprocess.encodingConverter module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spamclustering.preprocess.html#module-spamclustering.preprocess.extentedemailmessage">spamclustering.preprocess.extentedemailmessage module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spamclustering.preprocess.html#module-spamclustering.preprocess.mailanonymizer">spamclustering.preprocess.mailanonymizer module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spamclustering.preprocess.html#module-spamclustering.preprocess.payload">spamclustering.preprocess.payload module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="spamclustering.preprocess.html#module-spamclustering.preprocess">Module contents</a></li>
 </ul>
 </li>
@@ -125,45 +91,158 @@
 </div>
 </section>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
 </section>
-<section id="module-spamclustering.test">
-<span id="spamclustering-test-module"></span><h2>spamclustering.test module<a class="headerlink" href="#module-spamclustering.test" title="Permalink to this heading"></a></h2>
+<section id="module-spamclustering.example_anonymizer">
+<span id="spamclustering-example-anonymizer-module"></span><h2>spamclustering.example_anonymizer module<a class="headerlink" href="#module-spamclustering.example_anonymizer" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="spamclustering.example_anonymizer.main">
+<span class="sig-prename descclassname"><span class="pre">spamclustering.example_anonymizer.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.example_anonymizer.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>The example script will take a directory or single file as input 
+argument via <cite>&lt;path_to_dir1&gt;</cite>. After performing the necessary anonymization
+steps, the resulting <cite>eml</cite> files will be written to <cite>&lt;path_to_result&gt;</cite>.
+Optional arguments are a list of domains to block and a flag, which
+controls if the error log is written to a file. If both present, the
+<cite>block list</cite> must be the third argument. <cite>block list</cite> can be omitted, but
+this might produce errors. The log flag is either <cite>True</cite> or <cite>False</cite>, while
+<cite>False</cite> is the default value. Setting <cite>log=True</cite> will result in a text
+file named <cite>error_log.txt</cite> located at <cite>&lt;path_to_result&gt;</cite>.</p>
+<p>Run with:</p>
+<p>python -m spamclustering.example_anonimzer &lt;path_to_dir1&gt;
+&lt;path_to_result&gt; test/domains.txt log=True</p>
+<p>from root directory.</p>
+</dd></dl>
+
+</section>
+<section id="module-spamclustering.example_ctph">
+<span id="spamclustering-example-ctph-module"></span><h2>spamclustering.example_ctph module<a class="headerlink" href="#module-spamclustering.example_ctph" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="spamclustering.example_ctph.main">
+<span class="sig-prename descclassname"><span class="pre">spamclustering.example_ctph.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.example_ctph.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs clustering with the help of a context triggered piecewise hash
+function. Files found in <cite>&lt;path_to_files&gt;</cite> are processed, similar files
+are grouped in a cluster and the cluster is then written to
+<cite>path_to_cluster_out</cite>.</p>
+<p>Run with:</p>
+<p>python -m spamclustering.example_ctph &lt;path_to_files&gt; 
+&lt;path_to_cluster_out&gt;</p>
+<p>from root directory.</p>
+</dd></dl>
+
+</section>
+<section id="module-spamclustering.example_difftool">
+<span id="spamclustering-example-difftool-module"></span><h2>spamclustering.example_difftool module<a class="headerlink" href="#module-spamclustering.example_difftool" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="spamclustering.example_difftool.main">
+<span class="sig-prename descclassname"><span class="pre">spamclustering.example_difftool.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.example_difftool.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compare both given directories and tries to find matches betweeen
+clusters (e.g. subdirectories of the given directories). These matches are
+later compared and diffs between the gold standard and the directory to
+compare are listed on directory basis.</p>
+<p>Run with:</p>
+<p>python -m spamclustering.example_difftool &lt;path_gold_standard&gt; 
+&lt;path_to_compare&gt;</p>
+<p>from root directory</p>
+</dd></dl>
+
+</section>
+<section id="module-spamclustering.example_mboxReader">
+<span id="spamclustering-example-mboxreader-module"></span><h2>spamclustering.example_mboxReader module<a class="headerlink" href="#module-spamclustering.example_mboxReader" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="spamclustering.example_mboxReader.main">
+<span class="sig-prename descclassname"><span class="pre">spamclustering.example_mboxReader.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.example_mboxReader.main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Example showing how to use contents of mboxToEml package.</p>
+<p>This script reads a file in <cite>MBox</cite> format and extracts the respective <cite>eml</cite>
+files. These files are then stored at the given path.
+Run with:</p>
+<p>python m spamclustering.example_mboxReader -i &lt;path_to_mbox&gt;/file.mbox -o 
+&lt;path_to_output_dir&gt;</p>
+<p>from root directory</p>
+</dd></dl>
+
 </section>
 <section id="module-spamclustering">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-spamclustering" title="Permalink to this heading"></a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-spamclustering" title="Permalink to this heading">¶</a></h2>
 </section>
 </section>
 
 
-           </div>
+            <div class="clearer"></div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="modules.html" class="btn btn-neutral float-left" title="spamclustering" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="spamclustering.algorithms.html" class="btn btn-neutral float-right" title="spamclustering.algorithms package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright 2022, Pascal Scholz.</p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
         </div>
       </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">spamclustering package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-spamclustering.example_anonymizer">spamclustering.example_anonymizer module</a></li>
+<li><a class="reference internal" href="#module-spamclustering.example_ctph">spamclustering.example_ctph module</a></li>
+<li><a class="reference internal" href="#module-spamclustering.example_difftool">spamclustering.example_difftool module</a></li>
+<li><a class="reference internal" href="#module-spamclustering.example_mboxReader">spamclustering.example_mboxReader module</a></li>
+<li><a class="reference internal" href="#module-spamclustering">Module contents</a></li>
+</ul>
+</li>
+</ul>
 
-</body>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="modules.html"
+                          title="previous chapter">spamclustering</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="spamclustering.algorithms.html"
+                          title="next chapter">spamclustering.algorithms package</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/spamclustering.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="spamclustering.algorithms.html" title="spamclustering.algorithms package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="spamclustering"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">spamclustering  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >spamclustering</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">spamclustering package</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Pascal Scholz.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
+    </div>
+  </body>
 </html>

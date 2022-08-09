@@ -16,10 +16,34 @@ Subpackages
 Submodules
 ----------
 
-spamclustering.test module
---------------------------
+spamclustering.example\_anonymizer module
+-----------------------------------------
 
-.. automodule:: spamclustering.test
+.. automodule:: spamclustering.example_anonymizer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+spamclustering.example\_ctph module
+-----------------------------------
+
+.. automodule:: spamclustering.example_ctph
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+spamclustering.example\_difftool module
+---------------------------------------
+
+.. automodule:: spamclustering.example_difftool
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+spamclustering.example\_mboxReader module
+-----------------------------------------
+
+.. automodule:: spamclustering.example_mboxReader
    :members:
    :undoc-members:
    :show-inheritance:

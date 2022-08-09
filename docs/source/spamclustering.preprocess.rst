@@ -4,18 +4,26 @@ spamclustering.preprocess package
 Submodules
 ----------
 
-spamclustering.preprocess.anonymizer module
--------------------------------------------
+spamclustering.preprocess.extentedemailmessage module
+-----------------------------------------------------
 
-.. automodule:: spamclustering.preprocess.anonymizer
+.. automodule:: spamclustering.preprocess.extentedemailmessage
    :members:
    :undoc-members:
    :show-inheritance:
 
-spamclustering.preprocess.encodingConverter module
---------------------------------------------------
+spamclustering.preprocess.mailanonymizer module
+-----------------------------------------------
 
-.. automodule:: spamclustering.preprocess.encodingConverter
+.. automodule:: spamclustering.preprocess.mailanonymizer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+spamclustering.preprocess.payload module
+----------------------------------------
+
+.. automodule:: spamclustering.preprocess.payload
    :members:
    :undoc-members:
    :show-inheritance:

@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Installation &#8212; spamclustering  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="spamclustering" href="modules.html" />
+    <link rel="prev" title="Welcome to spamclustering’s documentation!" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="spamclustering"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to spamclustering’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">spamclustering  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Installation</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h1>
+<p>Running pip with <code class="docutils literal notranslate"><span class="pre">requierements.txt</span></code> should be enough to use these scripts.</p>
+<p>It is adviced to create a <a class="reference external" href="https://docs.python.org/3/library/venv.html">virtuell python environment</a>.</p>
+</section>
+<section id="documentation">
+<h1>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading">¶</a></h1>
+<p>Documentation is located at <code class="docutils literal notranslate"><span class="pre">docs/</span></code>. Prebuild HTML documatation is available. Building documatation in other document fomats is supported, see <code class="docutils literal notranslate"><span class="pre">Building</span> <span class="pre">documentation</span></code>.</p>
+<section id="building-documentation">
+<h2>Building documentation<a class="headerlink" href="#building-documentation" title="Permalink to this heading">¶</a></h2>
+<p>Documentation is build and managed thorugh the help of <a class="reference external" href="https://www.sphinx-doc.org/en/master/">Sphinx</a>. See sphinx documentation for more help. Running <code class="docutils literal notranslate"><span class="pre">requierements.txt</span></code> will install Sphinx. Sphinx has different <a class="reference external" href="https://www.sphinx-doc.org/en/master/man/sphinx-build.html">builders</a> available by default. For html build, simply execute</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>make html
+</pre></div>
+</div>
+<p>in <code class="docutils literal notranslate"><span class="pre">docs/</span></code>. To do this, <code class="docutils literal notranslate"><span class="pre">make</span></code> should be installed on the system.</p>
+<p>If creater changes were done to the package structure, the respcecitve <code class="docutils literal notranslate"><span class="pre">.rst</span></code> files need to be generated new. These reside in <code class="docutils literal notranslate"><span class="pre">docs/source</span></code>. Old <code class="docutils literal notranslate"><span class="pre">.rst</span></code> files will be overwritten in this processs. If you don’t want this to happen, remove the <code class="docutils literal notranslate"><span class="pre">-f</span></code> flag. The follwing command needs to be executed from within <code class="docutils literal notranslate"><span class="pre">docs</span></code> to recreate <code class="docutils literal notranslate"><span class="pre">*rst</span></code> files for each module/package:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sphinx-apidoc -f -o ./source ../spamclustering
+</pre></div>
+</div>
+<p>After recreating <code class="docutils literal notranslate"><span class="pre">.rst</span></code> files, cleaning the build dir is a good idea:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>make clean
+</pre></div>
+</div>
+</section>
+</section>
+<section id="running-example-scripts">
+<h1>Running example scripts<a class="headerlink" href="#running-example-scripts" title="Permalink to this heading">¶</a></h1>
+<p>Examples on how to use this code can be found in <code class="docutils literal notranslate"><span class="pre">spamclustering</span></code> prefix with <code class="docutils literal notranslate"><span class="pre">example_</span></code>. All example scripts must be run from root directory.</p>
+<section id="mboxreader">
+<h2>MBoxReader<a class="headerlink" href="#mboxreader" title="Permalink to this heading">¶</a></h2>
+<p>The MBox Reader reads a file in <code class="docutils literal notranslate"><span class="pre">MBox</span></code> format and extracts the respective <code class="docutils literal notranslate"><span class="pre">eml</span></code> files. These files are then stored at <code class="docutils literal notranslate"><span class="pre">&lt;path_to_output_dir&gt;</span></code>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>python -m spamclustering.example_mboxReader -i &lt;path_to_mbox&gt;/file.mbox -o &lt;path_to_output_dir&gt;
+</pre></div>
+</div>
+<p>##Anonymizing emails
+The example script will take a directory or single file as input argument via <code class="docutils literal notranslate"><span class="pre">&lt;path_to_dir1&gt;</span></code>. After performing the necessary anonymization steps, the resulting <code class="docutils literal notranslate"><span class="pre">eml</span></code> files will be written to <code class="docutils literal notranslate"><span class="pre">&lt;path_to_result&gt;</span></code>. Optional arguments are a list of domains to block and a flag, which controls if the error log is written to a file. If both present, the <code class="docutils literal notranslate"><span class="pre">block</span> <span class="pre">list</span></code> must be the third argument. <code class="docutils literal notranslate"><span class="pre">block</span> <span class="pre">list</span></code> can be omitted, but this might produce errors. The log flag is either <code class="docutils literal notranslate"><span class="pre">True</span></code> or <code class="docutils literal notranslate"><span class="pre">False</span></code>, while <code class="docutils literal notranslate"><span class="pre">False</span></code> is the default value. Setting <code class="docutils literal notranslate"><span class="pre">log=True</span></code> will result in a text file named <code class="docutils literal notranslate"><span class="pre">error_log.txt</span></code> located at <code class="docutils literal notranslate"><span class="pre">&lt;path_to_result&gt;</span></code>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>python -m spamclustering.example_anonimzer &lt;path_to_dir1&gt; &lt;path_to_result&gt; test/domains.txt log=True
+</pre></div>
+</div>
+<p>##Diff of directories
+Compare both given directories and tries to find matches betweeen clusters (e.g. subdirectories of the given directories). These matches are later compared and diffs between the gold standard and the directory to compare are listed on directory basis.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>python -m spamclustering.example_difftool &lt;path_gold_standard&gt; &lt;path_to_compare&gt;
+</pre></div>
+</div>
+<p>##Algorithms</p>
+<section id="context-triggered-piecewise-hash-ctph">
+<h3>Context triggered piecewise hash (CTPH)<a class="headerlink" href="#context-triggered-piecewise-hash-ctph" title="Permalink to this heading">¶</a></h3>
+<p>Performs clustering with the help of a context triggered piecewise hash function. Files found in <code class="docutils literal notranslate"><span class="pre">&lt;path_to_files&gt;</span></code> are processed, similar files are grouped in a cluster and the cluster is then written to <code class="docutils literal notranslate"><span class="pre">path_to_cluster_out</span></code>.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>python -m spamclustering.example_ctph &lt;path_to_files&gt; &lt;path_to_cluster_out&gt;
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Installation</a></li>
+<li><a class="reference internal" href="#documentation">Documentation</a><ul>
+<li><a class="reference internal" href="#building-documentation">Building documentation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#running-example-scripts">Running example scripts</a><ul>
+<li><a class="reference internal" href="#mboxreader">MBoxReader</a><ul>
+<li><a class="reference internal" href="#context-triggered-piecewise-hash-ctph">Context triggered piecewise hash (CTPH)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="index.html"
+                          title="previous chapter">Welcome to spamclustering’s documentation!</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="modules.html"
+                          title="next chapter">spamclustering</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/intro.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="spamclustering"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to spamclustering’s documentation!"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">spamclustering  documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Installation</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Pascal Scholz.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
+    </div>
+  </body>
+</html>

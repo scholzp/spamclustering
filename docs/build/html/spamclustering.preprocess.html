@@ -1,152 +1,59 @@
-<!DOCTYPE html>
-<html class="writer-html5" lang="en" >
-<head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>spamclustering.preprocess package &mdash; spamclustering  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-    <script src="_static/js/theme.js"></script>
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>spamclustering.preprocess package &#8212; spamclustering  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="prev" title="spamclustering.mboxReader package" href="spamclustering.mboxReader.html" /> 
-</head>
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="spamclustering.mboxReader.html" title="spamclustering.mboxReader package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">spamclustering  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >spamclustering</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="spamclustering.html" accesskey="U">spamclustering package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">spamclustering.preprocess package</a></li> 
+      </ul>
+    </div>  
 
-<body class="wy-body-for-nav"> 
-  <div class="wy-grid-for-nav">
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> spamclustering
-          </a>
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="modules.html">spamclustering</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="spamclustering.html">spamclustering package</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="spamclustering.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="spamclustering.algorithms.html">spamclustering.algorithms package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="spamclustering.benchmarking.html">spamclustering.benchmarking package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="spamclustering.mailIo.html">spamclustering.mailIo package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="spamclustering.mboxReader.html">spamclustering.mboxReader package</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">spamclustering.preprocess package</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="spamclustering.html#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="spamclustering.html#module-spamclustering.test">spamclustering.test module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="spamclustering.html#module-spamclustering">Module contents</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-        </div>
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">spamclustering</a>
-      </nav>
-
-      <div class="wy-nav-content">
-        <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
-  <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="modules.html">spamclustering</a> &raquo;</li>
-          <li><a href="spamclustering.html">spamclustering package</a> &raquo;</li>
-      <li>spamclustering.preprocess package</li>
-      <li class="wy-breadcrumbs-aside">
-            <a href="_sources/spamclustering.preprocess.rst.txt" rel="nofollow"> View page source</a>
-      </li>
-  </ul>
-  <hr/>
-</div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
-             
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
   <section id="spamclustering-preprocess-package">
-<h1>spamclustering.preprocess package<a class="headerlink" href="#spamclustering-preprocess-package" title="Permalink to this heading"></a></h1>
+<h1>spamclustering.preprocess package<a class="headerlink" href="#spamclustering-preprocess-package" title="Permalink to this heading">¶</a></h1>
 <section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
 </section>
-<section id="module-spamclustering.preprocess.anonymizer">
-<span id="spamclustering-preprocess-anonymizer-module"></span><h2>spamclustering.preprocess.anonymizer module<a class="headerlink" href="#module-spamclustering.preprocess.anonymizer" title="Permalink to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="spamclustering.preprocess.anonymizer.main">
-<span class="sig-prename descclassname"><span class="pre">spamclustering.preprocess.anonymizer.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.anonymizer.main" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-</section>
-<section id="module-spamclustering.preprocess.encodingConverter">
-<span id="spamclustering-preprocess-encodingconverter-module"></span><h2>spamclustering.preprocess.encodingConverter module<a class="headerlink" href="#module-spamclustering.preprocess.encodingConverter" title="Permalink to this heading"></a></h2>
+<section id="module-spamclustering.preprocess.extentedemailmessage">
+<span id="spamclustering-preprocess-extentedemailmessage-module"></span><h2>spamclustering.preprocess.extentedemailmessage module<a class="headerlink" href="#module-spamclustering.preprocess.extentedemailmessage" title="Permalink to this heading">¶</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.ContentType">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">spamclustering.preprocess.encodingConverter.</span></span><span class="sig-name descname"><span class="pre">ContentType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.ContentType" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
-<p>Enum type to denote content type of a mail’s payload</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.ContentType.HTMLTEXT">
-<span class="sig-name descname"><span class="pre">HTMLTEXT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.ContentType.HTMLTEXT" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.ContentType.PLAINTEXT">
-<span class="sig-name descname"><span class="pre">PLAINTEXT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.ContentType.PLAINTEXT" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.ContentType.UNDEFINED">
-<span class="sig-name descname"><span class="pre">UNDEFINED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.ContentType.UNDEFINED" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.Encoding">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">spamclustering.preprocess.encodingConverter.</span></span><span class="sig-name descname"><span class="pre">Encoding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.Encoding" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
-<p>Enum type to denote the transfer encoding used for the respective
-payload</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.Encoding.BASE64">
-<span class="sig-name descname"><span class="pre">BASE64</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.Encoding.BASE64" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.Encoding.QUOTEDPRINTABLE">
-<span class="sig-name descname"><span class="pre">QUOTEDPRINTABLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.Encoding.QUOTEDPRINTABLE" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.Encoding.UNDEFINED">
-<span class="sig-name descname"><span class="pre">UNDEFINED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.Encoding.UNDEFINED" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.ExtentedEmailMessage">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">spamclustering.preprocess.encodingConverter.</span></span><span class="sig-name descname"><span class="pre">ExtentedEmailMessage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.ExtentedEmailMessage" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="spamclustering.preprocess.extentedemailmessage.ExtentedEmailMessage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">spamclustering.preprocess.extentedemailmessage.</span></span><span class="sig-name descname"><span class="pre">ExtentedEmailMessage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.extentedemailmessage.ExtentedEmailMessage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Adds additional modification functions to python EmailMessage.</p>
 <p>This class add a more complex payload/content part detection to python
@@ -157,74 +64,74 @@ EmailMessage class.</p>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.ExtentedEmailMessage.email_message">
-<span class="sig-name descname"><span class="pre">email_message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.ExtentedEmailMessage.email_message" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="spamclustering.preprocess.extentedemailmessage.ExtentedEmailMessage.email_message">
+<span class="sig-name descname"><span class="pre">email_message</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#spamclustering.preprocess.extentedemailmessage.ExtentedEmailMessage.email_message" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.ExtentedEmailMessage.extract_payload">
-<span class="sig-name descname"><span class="pre">extract_payload</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.ExtentedEmailMessage.extract_payload" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="spamclustering.preprocess.extentedemailmessage.ExtentedEmailMessage.extract_payload">
+<span class="sig-name descname"><span class="pre">extract_payload</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.extentedemailmessage.ExtentedEmailMessage.extract_payload" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extract payload/content parts from an email.
 Extract all content parts from the mail and create several payload
 objects form the extracted data.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.ExtentedEmailMessage.header_dict">
-<span class="sig-name descname"><span class="pre">header_dict</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'From':</span> <span class="pre">None,</span> <span class="pre">'Sender':</span> <span class="pre">None,</span> <span class="pre">'Subject':</span> <span class="pre">None,</span> <span class="pre">'Thread-Topic':</span> <span class="pre">None,</span> <span class="pre">'To':</span> <span class="pre">None}</span></em><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.ExtentedEmailMessage.header_dict" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="spamclustering.preprocess.extentedemailmessage.ExtentedEmailMessage.header_dict">
+<span class="sig-name descname"><span class="pre">header_dict</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'From':</span> <span class="pre">None,</span> <span class="pre">'Sender':</span> <span class="pre">None,</span> <span class="pre">'Subject':</span> <span class="pre">None,</span> <span class="pre">'Thread-Topic':</span> <span class="pre">None,</span> <span class="pre">'To':</span> <span class="pre">None}</span></em><a class="headerlink" href="#spamclustering.preprocess.extentedemailmessage.ExtentedEmailMessage.header_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dict of knwon headers to process.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.ExtentedEmailMessage.patternBase64">
-<span class="sig-name descname"><span class="pre">patternBase64</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\n(?P&lt;Content&gt;(?:(?:(?:[a-zA-Z0-9=/+]{4})+)\n)+)'</span></em><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.ExtentedEmailMessage.patternBase64" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="spamclustering.preprocess.extentedemailmessage.ExtentedEmailMessage.patternBase64">
+<span class="sig-name descname"><span class="pre">patternBase64</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\n(?P&lt;Content&gt;(?:(?:(?:[a-zA-Z0-9=/+]{4})+)\n)+)'</span></em><a class="headerlink" href="#spamclustering.preprocess.extentedemailmessage.ExtentedEmailMessage.patternBase64" title="Permalink to this definition">¶</a></dt>
 <dd><p>Regex pattern for detecting base64 encded content</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.ExtentedEmailMessage.patternContentTypeHtml">
-<span class="sig-name descname"><span class="pre">patternContentTypeHtml</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Content-Type:</span> <span class="pre">text/html'</span></em><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.ExtentedEmailMessage.patternContentTypeHtml" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="spamclustering.preprocess.extentedemailmessage.ExtentedEmailMessage.patternContentTypeHtml">
+<span class="sig-name descname"><span class="pre">patternContentTypeHtml</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Content-Type:</span> <span class="pre">text/html'</span></em><a class="headerlink" href="#spamclustering.preprocess.extentedemailmessage.ExtentedEmailMessage.patternContentTypeHtml" title="Permalink to this definition">¶</a></dt>
 <dd><p>Regex pattern for detecting ‘text/html’ content type.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.ExtentedEmailMessage.patternContentTypePlain">
-<span class="sig-name descname"><span class="pre">patternContentTypePlain</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Content-Type:</span> <span class="pre">text/plain'</span></em><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.ExtentedEmailMessage.patternContentTypePlain" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="spamclustering.preprocess.extentedemailmessage.ExtentedEmailMessage.patternContentTypePlain">
+<span class="sig-name descname"><span class="pre">patternContentTypePlain</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Content-Type:</span> <span class="pre">text/plain'</span></em><a class="headerlink" href="#spamclustering.preprocess.extentedemailmessage.ExtentedEmailMessage.patternContentTypePlain" title="Permalink to this definition">¶</a></dt>
 <dd><p>Regex pattern for detecting ‘text/plain’ content type.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.ExtentedEmailMessage.patternHtml">
-<span class="sig-name descname"><span class="pre">patternHtml</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'(?P&lt;Content&gt;(&lt;html(?:.|\\s)*/html&gt;)|(&lt;=?\\s?h=?\\s?t=?\\s?m=?\\s?l=?\\s?&gt;(?:.\\s)*/=?\\s?h=?\\s?t=?\\s?m=?\\s?l=?\\s?&gt;))'</span></em><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.ExtentedEmailMessage.patternHtml" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="spamclustering.preprocess.extentedemailmessage.ExtentedEmailMessage.patternHtml">
+<span class="sig-name descname"><span class="pre">patternHtml</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'(?P&lt;Content&gt;(&lt;html(?:.|\\s)*/html&gt;)|(&lt;=?\\s?h=?\\s?t=?\\s?m=?\\s?l=?\\s?&gt;(?:.\\s)*/=?\\s?h=?\\s?t=?\\s?m=?\\s?l=?\\s?&gt;))'</span></em><a class="headerlink" href="#spamclustering.preprocess.extentedemailmessage.ExtentedEmailMessage.patternHtml" title="Permalink to this definition">¶</a></dt>
 <dd><p>Regex pattern for detecting html content</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.ExtentedEmailMessage.patternQuoted">
-<span class="sig-name descname"><span class="pre">patternQuoted</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\n\n(?P&lt;Content&gt;([a-zA-Z0-9&gt;?&#64;\\[\\]^_`{|}~!&quot;#$%&amp;\'()*+,\\-./:;&lt;]|\\S)*)'</span></em><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.ExtentedEmailMessage.patternQuoted" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="spamclustering.preprocess.extentedemailmessage.ExtentedEmailMessage.patternQuoted">
+<span class="sig-name descname"><span class="pre">patternQuoted</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\n\n(?P&lt;Content&gt;([a-zA-Z0-9&gt;?&#64;\\[\\]^_`{|}~!&quot;#$%&amp;\'()*+,\\-./:;&lt;]|\\S)*)'</span></em><a class="headerlink" href="#spamclustering.preprocess.extentedemailmessage.ExtentedEmailMessage.patternQuoted" title="Permalink to this definition">¶</a></dt>
 <dd><p>Regex pattern for detecting quoeted printable content.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.ExtentedEmailMessage.patternTransferEncoding">
-<span class="sig-name descname"><span class="pre">patternTransferEncoding</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Content-Transfer-Encoding:</span> <span class="pre">'</span></em><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.ExtentedEmailMessage.patternTransferEncoding" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="spamclustering.preprocess.extentedemailmessage.ExtentedEmailMessage.patternTransferEncoding">
+<span class="sig-name descname"><span class="pre">patternTransferEncoding</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Content-Transfer-Encoding:</span> <span class="pre">'</span></em><a class="headerlink" href="#spamclustering.preprocess.extentedemailmessage.ExtentedEmailMessage.patternTransferEncoding" title="Permalink to this definition">¶</a></dt>
 <dd><p>Regex pattern for detecting tranfer encoding header</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.ExtentedEmailMessage.pattern_encoding_types">
-<span class="sig-name descname"><span class="pre">pattern_encoding_types</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'(?P&lt;Encoding&gt;base64|quoted-printable)\n'</span></em><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.ExtentedEmailMessage.pattern_encoding_types" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="spamclustering.preprocess.extentedemailmessage.ExtentedEmailMessage.pattern_encoding_types">
+<span class="sig-name descname"><span class="pre">pattern_encoding_types</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'(?P&lt;Encoding&gt;base64|quoted-printable)\n'</span></em><a class="headerlink" href="#spamclustering.preprocess.extentedemailmessage.ExtentedEmailMessage.pattern_encoding_types" title="Permalink to this definition">¶</a></dt>
 <dd><p>Regex pattern for detecting transferencoding type</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.ExtentedEmailMessage.payload_list">
-<span class="sig-name descname"><span class="pre">payload_list</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.ExtentedEmailMessage.payload_list" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="spamclustering.preprocess.extentedemailmessage.ExtentedEmailMessage.payload_list">
+<span class="sig-name descname"><span class="pre">payload_list</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#spamclustering.preprocess.extentedemailmessage.ExtentedEmailMessage.payload_list" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.ExtentedEmailMessage.update_content">
-<span class="sig-name descname"><span class="pre">update_content</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.ExtentedEmailMessage.update_content" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="spamclustering.preprocess.extentedemailmessage.ExtentedEmailMessage.update_content">
+<span class="sig-name descname"><span class="pre">update_content</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.extentedemailmessage.ExtentedEmailMessage.update_content" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overwrite parts of the mail with the current payloads.
 Use this object’s list of payload objects to overwrite the respective
 parts of the original mail with the payload’s content. More detailed,
@@ -235,9 +142,12 @@ a new EmailMessage from it.</p>
 
 </dd></dl>
 
+</section>
+<section id="module-spamclustering.preprocess.mailanonymizer">
+<span id="spamclustering-preprocess-mailanonymizer-module"></span><h2>spamclustering.preprocess.mailanonymizer module<a class="headerlink" href="#module-spamclustering.preprocess.mailanonymizer" title="Permalink to this heading">¶</a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.MailAnonymizer">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">spamclustering.preprocess.encodingConverter.</span></span><span class="sig-name descname"><span class="pre">MailAnonymizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extended_mail</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.MailAnonymizer" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="spamclustering.preprocess.mailanonymizer.MailAnonymizer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">spamclustering.preprocess.mailanonymizer.</span></span><span class="sig-name descname"><span class="pre">MailAnonymizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">extended_mail</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.mailanonymizer.MailAnonymizer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Implements anonymization functions applicable to ExtendedEmailMessage.</p>
 <p>This class implements functions to anonymize several parts of objects of
@@ -249,8 +159,8 @@ of the ‘To’ header are replace, one has the possibility to state domains of
 interest in a block list. Adding this list will extend the search and
 replacement of mail aliases containing domains from the list.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.MailAnonymizer.anonymize">
-<span class="sig-name descname"><span class="pre">anonymize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.MailAnonymizer.anonymize" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="spamclustering.preprocess.mailanonymizer.MailAnonymizer.anonymize">
+<span class="sig-name descname"><span class="pre">anonymize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.mailanonymizer.MailAnonymizer.anonymize" title="Permalink to this definition">¶</a></dt>
 <dd><p>Performs different anonymization steps. Overwrites internal mail.</p>
 <p>Different anonymization steps are performed on the different parts of
 an email, stored in ‘extended_mail’ member. In the result, the stored
@@ -258,25 +168,73 @@ email message will be overwritten with the result of the anonymization.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.MailAnonymizer.global_replacement_buffer">
-<span class="sig-name descname"><span class="pre">global_replacement_buffer</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.MailAnonymizer.global_replacement_buffer" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="spamclustering.preprocess.mailanonymizer.MailAnonymizer.global_replacement_buffer">
+<span class="sig-name descname"><span class="pre">global_replacement_buffer</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#spamclustering.preprocess.mailanonymizer.MailAnonymizer.global_replacement_buffer" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.MailAnonymizer.key_dict">
-<span class="sig-name descname"><span class="pre">key_dict</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.MailAnonymizer.key_dict" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="spamclustering.preprocess.mailanonymizer.MailAnonymizer.key_dict">
+<span class="sig-name descname"><span class="pre">key_dict</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#spamclustering.preprocess.mailanonymizer.MailAnonymizer.key_dict" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.MailAnonymizer.key_list">
-<span class="sig-name descname"><span class="pre">key_list</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.MailAnonymizer.key_list" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="spamclustering.preprocess.mailanonymizer.MailAnonymizer.key_list">
+<span class="sig-name descname"><span class="pre">key_list</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#spamclustering.preprocess.mailanonymizer.MailAnonymizer.key_list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-spamclustering.preprocess.payload">
+<span id="spamclustering-preprocess-payload-module"></span><h2>spamclustering.preprocess.payload module<a class="headerlink" href="#module-spamclustering.preprocess.payload" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="spamclustering.preprocess.payload.ContentType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">spamclustering.preprocess.payload.</span></span><span class="sig-name descname"><span class="pre">ContentType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.payload.ContentType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>Enum type to denote content type of a mail’s payload</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="spamclustering.preprocess.payload.ContentType.HTMLTEXT">
+<span class="sig-name descname"><span class="pre">HTMLTEXT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#spamclustering.preprocess.payload.ContentType.HTMLTEXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="spamclustering.preprocess.payload.ContentType.PLAINTEXT">
+<span class="sig-name descname"><span class="pre">PLAINTEXT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#spamclustering.preprocess.payload.ContentType.PLAINTEXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="spamclustering.preprocess.payload.ContentType.UNDEFINED">
+<span class="sig-name descname"><span class="pre">UNDEFINED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#spamclustering.preprocess.payload.ContentType.UNDEFINED" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.Payload">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">spamclustering.preprocess.encodingConverter.</span></span><span class="sig-name descname"><span class="pre">Payload</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.Payload" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="spamclustering.preprocess.payload.Encoding">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">spamclustering.preprocess.payload.</span></span><span class="sig-name descname"><span class="pre">Encoding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.payload.Encoding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>Enum type to denote the transfer encoding used for the respective
+payload</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="spamclustering.preprocess.payload.Encoding.BASE64">
+<span class="sig-name descname"><span class="pre">BASE64</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#spamclustering.preprocess.payload.Encoding.BASE64" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="spamclustering.preprocess.payload.Encoding.QUOTEDPRINTABLE">
+<span class="sig-name descname"><span class="pre">QUOTEDPRINTABLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#spamclustering.preprocess.payload.Encoding.QUOTEDPRINTABLE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="spamclustering.preprocess.payload.Encoding.UNDEFINED">
+<span class="sig-name descname"><span class="pre">UNDEFINED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#spamclustering.preprocess.payload.Encoding.UNDEFINED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="spamclustering.preprocess.payload.Payload">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">spamclustering.preprocess.payload.</span></span><span class="sig-name descname"><span class="pre">Payload</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">content_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">encoding_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.payload.Payload" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Helper class to store payload information.</p>
 <p>Content of each part of an email is viewed as one payload. The payload
@@ -296,15 +254,15 @@ mail</p></li>
 </ul>
 </dd>
 <dt class="field-even">Type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="#spamclustering.preprocess.encodingConverter.ContentType" title="spamclustering.preprocess.encodingConverter.ContentType"><code class="xref py py-class docutils literal notranslate"><span class="pre">spamclustering.preprocess.encodingConverter.ContentType</span></code></a></p>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">spamclustering.preprocess.encodingConverter.ContentType</span></code></p>
 </dd>
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#spamclustering.preprocess.encodingConverter.Encoding" title="spamclustering.preprocess.encodingConverter.Encoding"><code class="xref py py-class docutils literal notranslate"><span class="pre">spamclustering.preprocess.encodingConverter.Encoding</span></code></a></p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">spamclustering.preprocess.encodingConverter.Encoding</span></code></p>
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.Payload.decode">
-<span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.Payload.decode" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="spamclustering.preprocess.payload.Payload.decode">
+<span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.payload.Payload.decode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Use the transfer encoding information to decode the content.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -317,8 +275,8 @@ mail</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.Payload.do_transfer_encoding">
-<span class="sig-name descname"><span class="pre">do_transfer_encoding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content_bytes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.Payload.do_transfer_encoding" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="spamclustering.preprocess.payload.Payload.do_transfer_encoding">
+<span class="sig-name descname"><span class="pre">do_transfer_encoding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content_bytes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.payload.Payload.do_transfer_encoding" title="Permalink to this definition">¶</a></dt>
 <dd><p>Use the transfer encoding information to encode the given content.
 This function will not overwrite the content stored in this class.</p>
 <dl class="field-list simple">
@@ -335,8 +293,8 @@ This function will not overwrite the content stored in this class.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.Payload.set_charset">
-<span class="sig-name descname"><span class="pre">set_charset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">charset</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.Payload.set_charset" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="spamclustering.preprocess.payload.Payload.set_charset">
+<span class="sig-name descname"><span class="pre">set_charset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">charset</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.payload.Payload.set_charset" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the char set of the content of this payload.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -347,8 +305,8 @@ python codec string.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.Payload.set_text_content">
-<span class="sig-name descname"><span class="pre">set_text_content</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.Payload.set_text_content" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="spamclustering.preprocess.payload.Payload.set_text_content">
+<span class="sig-name descname"><span class="pre">set_text_content</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.payload.Payload.set_text_content" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overwrites the content stored by this object with the given text.
 The given text will first encoded into the target character set and
 then the original transfer encoding will be performed. The result is
@@ -364,8 +322,8 @@ then used to overwrite the content stored by this object.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.Payload.to_utf8">
-<span class="sig-name descname"><span class="pre">to_utf8</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.Payload.to_utf8" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="spamclustering.preprocess.payload.Payload.to_utf8">
+<span class="sig-name descname"><span class="pre">to_utf8</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.payload.Payload.to_utf8" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the content stored in by this object as a UTF-8 string.
 The content stored by this class is first decoded with respect to the
 transfer encoding. In the next step the resulting bytes stream is
@@ -382,45 +340,80 @@ decoded from the respective character set into UTF-8 for python usage.</p>
 
 </dd></dl>
 
-<dl class="py function">
-<dt class="sig sig-object py" id="spamclustering.preprocess.encodingConverter.main">
-<span class="sig-prename descclassname"><span class="pre">spamclustering.preprocess.encodingConverter.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#spamclustering.preprocess.encodingConverter.main" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
-
 </section>
 <section id="module-spamclustering.preprocess">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-spamclustering.preprocess" title="Permalink to this heading"></a></h2>
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-spamclustering.preprocess" title="Permalink to this heading">¶</a></h2>
 </section>
 </section>
 
 
-           </div>
+            <div class="clearer"></div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="spamclustering.mboxReader.html" class="btn btn-neutral float-left" title="spamclustering.mboxReader package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-    </div>
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>&#169; Copyright 2022, Pascal Scholz.</p>
-  </div>
-
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
-
-</footer>
         </div>
       </div>
-    </section>
-  </div>
-  <script>
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script> 
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">spamclustering.preprocess package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-spamclustering.preprocess.extentedemailmessage">spamclustering.preprocess.extentedemailmessage module</a></li>
+<li><a class="reference internal" href="#module-spamclustering.preprocess.mailanonymizer">spamclustering.preprocess.mailanonymizer module</a></li>
+<li><a class="reference internal" href="#module-spamclustering.preprocess.payload">spamclustering.preprocess.payload module</a></li>
+<li><a class="reference internal" href="#module-spamclustering.preprocess">Module contents</a></li>
+</ul>
+</li>
+</ul>
 
-</body>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="spamclustering.mboxReader.html"
+                          title="previous chapter">spamclustering.mboxReader package</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/spamclustering.preprocess.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="spamclustering.mboxReader.html" title="spamclustering.mboxReader package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">spamclustering  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >spamclustering</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="spamclustering.html" >spamclustering package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">spamclustering.preprocess package</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, Pascal Scholz.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
+    </div>
+  </body>
 </html>
