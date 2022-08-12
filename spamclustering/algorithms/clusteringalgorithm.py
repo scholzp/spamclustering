@@ -30,7 +30,7 @@ class ClusteringAlgorithm:
         This function is to be overwritten by classes which inherited from
         ClusteringAlgorithm and implement own clustering algorithms.
         """
-        new_cluster = sc.SpamCluster(self.output_path)
+        new_cluster = sc.SpamCluster()
         new_cluster.add(self.input_files)
         self.cluster_dict[new_cluster.uuid] = new_cluster
 
@@ -41,4 +41,4 @@ class ClusteringAlgorithm:
         the respective constructor. Needs to be set otherwise.
         """
         for _, cluster in self.cluster_dict.items():
-            cluster.write_to_path()
+            cluster.write_to_path(self.output_path)

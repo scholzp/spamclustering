@@ -1,8 +1,7 @@
-import numpy
 import pandas
 import os
 
-from collections import defaultdict
+from ..algorithms import spamcluster as sc
 
 
 class Tree():
@@ -14,11 +13,21 @@ class Tree():
         self.value = name
         self.sub_tree = []
         self.root = root
+        self.is_file = False
 
     def add_node(self, node):
+        """Add a subtree to this node.
+
+        :param node: Node to add to this node.
+        :type node: :class:`spamclustering.benchmarking.difftool.Tree`
+        """
         self.sub_tree.append(node)
 
     def print(self, depth=0):
+        """Print a recursive string representation of this tree.
+        :param depth: Depth of the tree, when processing recursively.
+        :type depth: int
+        """
         indent = depth * 2
         print(indent * ' ' + '| ' + str(self.value))
         print(indent * ' ' + '---')
@@ -26,6 +35,14 @@ class Tree():
             tree.print(depth + 1)
 
     def create_from_path(self, path):
+        """Beginning from `path`, traverse all subdirectories to find files.
+        Create a tree structure to represent the fiel structure.
+
+        :param path: Path from which the a directory tree is to be created.
+        :type path: str
+        :return: Starting node of the resulting tree.
+        :rtype: :class:`spamclustering.benchmarking.difftool.Tree`
+        """
         jump_dict = {}
         start = None
         for root, dirs, files in os.walk(path):
@@ -40,70 +57,67 @@ class Tree():
             for directory in contents:
                 complete_path = os.path.join(root, directory)
                 new_tree = Tree(complete_path, base)
+                if os.path.isfile(complete_path):
+                    new_tree.is_file = True
                 base.add_node(new_tree)
                 jump_dict[complete_path] = new_tree
         return start
 
-    def leaf_affinity(self, leaf_dict):
-        if leaf_dict is None:
-            leaf_dict = {}
-        if self.sub_tree == []:
-            leaf_dict[os.path.split(self.value)[1]] = self.root
-        else:
-            for sub_tree in self.sub_tree:
-                sub_tree.leaf_affinity(leaf_dict)
+    def to_cluster_set(self):
+        """ Generates clusters from a file tree.
+        :return: Set of clusters generated from the directory tree.
+        :rtype: set() of
+            :class:spamclustering.algorithms.spamcluster.SpamCluster
+        """
+        result = set()
+        return self._generate_clusters(result)
+
+    def _generate_clusters(self, cluster_set=None):
+        """Help function to recursively traverse the directory tree. Generates
+        cluster for each directory containing no subdirectories.
+        """
+        cluster = sc.SpamCluster()
+        has_subdirs = False
+        for sub_tree in self.sub_tree:
+            if sub_tree.is_file is True:
+                cluster.add(os.path.split(sub_tree.value)[1])
+            else:
+                has_subdirs = True
+                sub_tree._generate_clusters(cluster_set)
+        cluster.uuid = self.value
+        if has_subdirs is False:
+            cluster_set.add(cluster)
+        return cluster_set
 
     def generate_file_diff(self, other):
-        # first get leaf affinities
-        leaf_affinity_self = {}
-        leaf_affinity_other = {}
-        self.leaf_affinity(leaf_affinity_self)
-        other.leaf_affinity(leaf_affinity_other)
-        # invert them, create sets of file names
-        affinity_self_inv = defaultdict(set)
-        affinity_other_inv = defaultdict(set)
-        {affinity_self_inv[c].add(f) for f, c in leaf_affinity_self.items()}
-        {affinity_other_inv[c].add(f)
-            for f, c in leaf_affinity_other.items()}
-
-        set_all_other = set(leaf_affinity_other.values())
-        set_all_self = set(leaf_affinity_self.values())
-        # calculate rand index and create a 2d pandas data frame from the
-        # results
-        keys_other = affinity_other_inv.keys()
-        keys_other_value = {c.value: c for c in keys_other}
-        keys_self = affinity_self_inv.keys()
-        keys_self_value = {c.value: c for c in keys_self}
         series_dict = {}
-        global_tn = 0
-        global_fn = 0
-        global_tp = 0
-        global_fp = 0
-        for cluster in keys_self:
-            files = affinity_self_inv[cluster]
+        # Create dicts which match cluster ids against cluster for faster
+        # search
+        self_clusters = {c.uuid: c for c in self.to_cluster_set()}
+        other_clusters = {c.uuid: c for c in other.to_cluster_set()}
+        # generate two sets, each containing all files for each cluster set
+        set_all_self = set(cluster for _, cluster in self_clusters.items())
+        set_all_other = set(cluster for _, cluster in other_clusters.items())
+        # create a list which can be used as index for a pandas series
+        df_index_self = list(self_clusters.keys())
+        df_index_other = list(other_clusters.keys())
+        for uuid in df_index_self:
+            files = self_clusters[uuid].cluster_members
             rand_index_list = []
-            for cluster_o in keys_other:
-                rand_index = 0
-                files_o = affinity_other_inv[cluster_o]
-                intersection = files & files_o
-                true_positive = len(intersection)
+            for uuid_o in df_index_other:
+                files_o = other_clusters[uuid_o].cluster_members
+                true_positive = len(files & files_o)
                 true_negative = len((set_all_self - files) &
                                     (set_all_other - files_o))
                 false_positive = len(files_o - files)
                 false_negative = len(files - files_o)
-                global_tn += true_negative
-                global_fn += false_negative
-                global_tp += true_positive
-                global_fp += false_positive
                 rand_index = (true_positive + true_negative) / \
                              (false_positive + false_negative
                               + true_positive + true_negative)
                 rand_index_list.append(rand_index)
-            series_dict[cluster.value] = pandas.Series(rand_index_list,
-                                                       keys_other_value.keys())
+            series_dict[uuid] = pandas.Series(rand_index_list, df_index_other)
 
-        columns_df = [c.value for c in keys_self]
-        rand_frame = pandas.DataFrame(series_dict, columns=columns_df)
+        rand_frame = pandas.DataFrame(series_dict, columns=df_index_self)
         # to make sure, that not multiple clusters get matched to a cluster of
         # the comparing set, we perform maxima search once for the original
         # data frame and once for the transformed one.
@@ -111,64 +125,45 @@ class Tree():
         imax_i = rand_frame.T.idxmax()
         match_dict = {}
         # first add all clusters which have a match somehow
-        for (c, r) in imax.items():
-            if rand_frame.at[r, c] > 0 and (r, c) in imax_i.items():
-                match_dict[c] = r
-        # then add all other clusters
-        for key in (set(keys_self_value.keys()) - set(match_dict.keys())):
-            match_dict[key] = 'missing'
-        for key in (set(keys_other_value.keys()) - set(match_dict.values())):
-            match_dict[key] = 'additional'
+        for (column, row) in imax.items():
+            if (rand_frame.at[row, column] > 0) and \
+               ((row, column) in imax_i.items()):
+                match_dict[column] = row
+        # then add all other clusters and mark them by a keyword
+        for uuid in (set(df_index_self) - set(match_dict.keys())):
+            match_dict[uuid] = 'missing'
+        for uuid in (set(df_index_other) - set(match_dict.values())):
+            match_dict[uuid] = 'additional'
+        # print the result and calculate rand index
+        num_tp = 0
+        num_tn = 0
+        num_fp = 0
+        num_fn = 0
+        set_all_files = set()
+        for _, cluster in self_clusters.items():
+            set_all_files |= cluster.cluster_members
+        for (uuid, match_uuid) in match_dict.items():
+            if match_uuid == 'missing':
+                print('No match found for cluster', uuid)
+                num_fn += len(self_clusters[uuid].cluster_members)
 
-        for (key, value) in match_dict.items():
-            additional_set = set()
-            missing_set = set()
-            new_value = ''
-            if value == 'missing':
-                k_self = keys_self_value[key]
-                missing_set = affinity_self_inv[k_self]
-            elif value == 'additional':
-                k_other = keys_other_value[key]
-                additional_set = affinity_other_inv[k_other]
+            elif match_uuid == 'additional':
+                print('Generated completely new cluster', uuid)
+                num_fp += len(other_clusters[uuid].cluster_members)
             else:
-                # generate delta
-                k_self = keys_self_value[key]
-                k_other = keys_other_value[value]
-                additional_set = affinity_other_inv[k_other] - \
-                    affinity_self_inv[k_self]
-                missing_set = affinity_self_inv[k_self] - \
-                    affinity_other_inv[k_other]
-                new_value = value
-            # create frankensteins dict for delta information...
-            match_dict[key] = (new_value,
-                               (('additional', additional_set.copy()),
-                                ('missing', missing_set.copy())))
-        # {key, value}
-        #       \***/-----------------------------------------+
-        #         |  index 0                                  | index 1
-        #         v                                           v
-        #       (Name of Match,                     (missing),  (additional))
-        #                                               | index 0     |
-        # (Keyword 'missing'   , set of missing files) <+             |
-        # \********v*******/     \**********v********/                | index 1
-        #        index 0                index 1                       |
-        #  /*******^********\     /*********^***********\             |
-        # (Keyword 'additional' , set of additional files)  <---------+
-
-        # print this monster
-        for (key, value) in match_dict.items():
-            string = 'Matching ' + str(key) + ' against '
-            if value[0] == '':
-                string += 'HAS NO MATCH\n'
-            else:
-                string += str(value[0] + '.\n')
-            if (len(value[1][0][1]) != 0) or (len(value[1][1][1]) != 0):
-                string += 'Diffs:\n Missing: '
-                for missing in value[1][0][1]:
-                    string += str(missing) + '; '
-                string += '\n Additional: '
-                for additional in value[1][1][1]:
-                    string += str(additional) + ';'
-            string += '\n ----------------------------------- \n'
-            print(string)
-        print(global_tp, global_tn, global_fp, global_fn)
+                cluster_match = other_clusters[match_uuid]
+                cluster_gold = self_clusters[uuid]
+                cluster_diff_obj = cluster_gold.compare(cluster_match)
+                num_tp += len(cluster_diff_obj.true_positive)
+                num_tn += len((set_all_files - cluster_gold.cluster_members) &
+                              (set_all_files - cluster_match.cluster_members))
+                num_fp += len(cluster_diff_obj.false_positive)
+                num_fn += len(cluster_diff_obj.false_negative)
+                print(cluster_diff_obj)
+            print('-------------------------------------------------------')
+        rand_index = (num_tp + num_tn) / (num_tp + num_fp + num_tn + num_fn)
+        print('Rand index is:{}, tn={}, fn={}, tp={}, fp={}, n={})'.format(
+                            rand_index, num_tn, num_fn, num_tp, num_fp,
+                            len(set_all_files)))
+        print('Cluster num gold: {}, Cluster num algo: {}.'.format(
+                len(df_index_self), len(df_index_other)))
