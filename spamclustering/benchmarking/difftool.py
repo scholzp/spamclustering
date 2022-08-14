@@ -1,6 +1,8 @@
 import pandas
 import os
 
+from sklearn import metrics
+
 from ..algorithms import spamcluster as sc
 
 
@@ -134,7 +136,7 @@ class Tree():
             match_dict[uuid] = 'missing'
         for uuid in (set(df_index_other) - set(match_dict.values())):
             match_dict[uuid] = 'additional'
-        # print the result and calculate rand index
+        # generate diffs and some statistics
         num_tp = 0
         num_tn = 0
         num_fp = 0
@@ -161,9 +163,28 @@ class Tree():
                 num_fn += len(cluster_diff_obj.false_negative)
                 print(cluster_diff_obj)
             print('-------------------------------------------------------')
-        rand_index = (num_tp + num_tn) / (num_tp + num_fp + num_tn + num_fn)
-        print('Rand index is:{}, tn={}, fn={}, tp={}, fp={}, n={})'.format(
-                            rand_index, num_tn, num_fn, num_tp, num_fp,
+        print('tn={}, fn={}, tp={}, fp={}, n={}'.format(
+                            num_tn, num_fn, num_tp, num_fp,
                             len(set_all_files)))
         print('Cluster num gold: {}, Cluster num algo: {}.'.format(
                 len(df_index_self), len(df_index_other)))
+
+        labels_gold = []
+        labels_test = []
+        # assign a label to each cluster. Only store the label for scipy's rand
+        # score implementation
+        label = 0
+        for (uuid, match_uuid) in match_dict.items():
+            if match_uuid == 'missing':
+                labels_gold += [label] * len(self_clusters[
+                                                 uuid].cluster_members)
+            elif match_uuid == 'additional':
+                labels_test += [label] * len(other_clusters[
+                                                 uuid].cluster_members)
+            else:
+                labels_gold += [label] * len(self_clusters[
+                                                 uuid].cluster_members)
+                labels_test += [label] * len(other_clusters[
+                                                 match_uuid].cluster_members)
+            label += 1
+        print('Rand score: ', metrics.rand_score(labels_gold, labels_test))
