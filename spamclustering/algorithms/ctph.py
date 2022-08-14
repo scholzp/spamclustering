@@ -64,7 +64,7 @@ class Ctph(ClusteringAlgorithm):
                 cluster = file_cluster_dict[best_match[0]]
                 cluster.add(current)
             else:
-                cluster = SpamCluster(self.output_path)
+                cluster = SpamCluster()
                 cluster.add(current)
                 self.cluster_dict[cluster.uuid] = cluster
             file_cluster_dict[current] = cluster
