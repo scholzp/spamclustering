@@ -20,7 +20,7 @@ def main():
 
     Run with:
     
-    python -m spamclustering.example_anonimzer <path_to_dir1>
+    python -m spamclustering.example_anonyimzer <path_to_dir1>
     <path_to_result> test/domains.txt log=True
     
     from root directory.
