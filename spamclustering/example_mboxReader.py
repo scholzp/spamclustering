@@ -11,7 +11,7 @@ def main():
     files. These files are then stored at the given path.
     Run with:
     
-    python m spamclustering.example_mboxReader -i <path_to_mbox>/file.mbox -o 
+    python -m spamclustering.example_mboxReader -i <path_to_mbox>/file.mbox -o 
     <path_to_output_dir> 
     
     from root directory
