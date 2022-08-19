@@ -3,12 +3,14 @@ import quopri
 
 from enum import Enum
 
+
 class ContentType(Enum):
     ''' Enum type to denote content type of a mail's payload
     '''
     UNDEFINED = 0
     PLAINTEXT = 1
     HTMLTEXT = 2
+    IMAGE = 3
 
 
 class Encoding(Enum):
@@ -63,17 +65,16 @@ class Payload:
         """ Use the transfer encoding information to decode the content.
 
         :return: Returns an array of bytes representing the decoded content.
-        :rtype: str
+        :rtype: bytes 
         """
-        result = ''
+        result = bytes(self.content, 'utf-8')
         match self.encoding_type:
             case Encoding.BASE64:
-                content_bytes = bytes(self.content, 'utf-8')
-                result = base64.decodebytes(content_bytes)
+                result = base64.decodebytes(result)
             case Encoding.QUOTEDPRINTABLE:
-                result = quopri.decodestring(self.content)
+                result = quopri.decodestring(result)
             case _:
-                result = bytes(self.content, 'utf-8')
+                pass
         return result
 
     def do_transfer_encoding(self, content_bytes):
@@ -83,7 +84,7 @@ class Payload:
         :param content_bytes: Bytes array containing the content to encode.
         :type content_bytes: bytes
         :return: Encoded content
-        :rtype: bytes
+        :rtype: :class:`bytes` sequence
         """
         result = ''
         match self.encoding_type:
