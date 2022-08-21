@@ -33,18 +33,17 @@ class ExtentedEmailMessage:
                   '(<=?\s?h=?\s?t=?\s?m=?\s?l=?\s?>(?:.\s)*' + \
                   '/=?\s?h=?\s?t=?\s?m=?\s?l=?\s?>))'
     """Regex pattern for detecting html content"""
-    patternBase64 = '\n(?P<Content>(?:(?:(?:[a-zA-Z0-9=/+]{4})+)\n)+)'
-    """Regex pattern for detecting base64 encded content"""
-    patternContentTypePlain = 'Content-Type: text/plain'
-    """Regex pattern for detecting 'text/plain' content type."""
-    patternContentTypeHtml = 'Content-Type: text/html'
+    patternBase64 = '\n(?:(?:(?:[a-zA-Z0-9=/+]{4})+)\n)+'
+
+    patternContentType = 'Content-Type: (?P<ContentType>[a-z]+/[a-z]+)'
     """Regex pattern for detecting 'text/html' content type."""
-    patternTransferEncoding = 'Content-Transfer-Encoding: '
-    """Regex pattern for detecting tranfer encoding header"""
-    pattern_encoding_types = '(?P<Encoding>base64|quoted-printable)\n'
+    patternTransferEncoding = 'Content-Transfer-Encoding: ' + \
+                              '(?P<Encoding>base64|quoted-printable)\n'
     """Regex pattern for detecting transferencoding type"""
     patternQuoted = \
-        '\n\n(?P<Content>([a-zA-Z0-9>?@\[\]^_`{|}~!"#$%&\'()*+,\-./:;<]|\S)*)'
+        '\n' + \
+        '((([a-zA-Z0-9>?@\[\]^_`{|}~!"#$%&\'()*+,\-./:;<\s\\\])|' + \
+        '(=[0-9A-F][0-9A-F]))+=?\n)*'
     """Regex pattern for detecting quoeted printable content."""
 
     def __init__(self, message):
@@ -62,22 +61,11 @@ class ExtentedEmailMessage:
         # pattern matching.
         if self.email_message.get_content_maintype() == 'multipart':
             pattern_list = [
-                '(' + self.patternContentTypePlain + ').*\n'
-                    + '\s*charset=\"(?:[a-zA-Z0-9_-]+)\"\n'
-                    + self.patternTransferEncoding
-                    + self.pattern_encoding_types
-                    + '(?:.+\n)*'
-                    + self.patternBase64,
-                '(' + self.patternContentTypeHtml + ').*\n'
-                    + '\s*charset=\"(?:[a-zA-Z0-9-_]+)\"\s*'
-                    + self.patternTransferEncoding
-                    + self.pattern_encoding_types
-                    + '(?:.*:.*\n)*' + self.patternBase64,
-                '(' + self.patternContentTypeHtml + ').*\s'
-                    + '(?:\s*[-.;\w"]+=[-.;\w"]+\s*)*'
-                    + self.patternTransferEncoding
-                    + self.pattern_encoding_types
-                    + '\s*' + self.patternHtml
+                 self.patternContentType + '.*\s'
+                 + '(?:\s*[-.;\w"]+=[-.;\w"]+\s*)*'
+                 + self.patternTransferEncoding
+                 + '\s*' + '(?P<Content>' + self.patternBase64 + '|' +
+                 self.patternQuoted + ')'
             ]
             # check for all supported forms of payload int the whole mail
             matches = self._match_pattern_list(pattern_list)
@@ -104,19 +92,19 @@ class ExtentedEmailMessage:
                     content_type = pl.ContentType.UNDEFINED
                     return
             # get the transfer encoding
-            encoding_re = re.compile(self.pattern_encoding_types)
+            encoding_re = re.compile(self.patternTransferEncoding)
             match_obj = encoding_re.search(serialized_email)
             content_encoding = self._retrieve_encoding(match_obj)
             # depending on the encoding and content type, the char set
             # information can be found in different patterns.
             match content_encoding:
                 case pl.Encoding.BASE64:
-                    content_re = re.compile(self.patternBase64)
+                    content_re = self.patternBase64
                     content_charset = re.compile(
                             '\s*charset=\"([a-zA-Z0-9_-]+)\"\n').search(
                                                         serialized_email)
                 case pl.Encoding.QUOTEDPRINTABLE:
-                    content_re = re.compile(self.patternQuoted)
+                    content_re = '\n' + self.patternQuoted
                     pattern = '\s*charset=\"([a-zA-Z0-9_-]+)\"\n'
                     if content_type == pl.ContentType.HTMLTEXT:
                         pattern = 'charset=3D(?P<charset>[a-zA-Z20-9-_]+' +\
@@ -125,7 +113,8 @@ class ExtentedEmailMessage:
                 case _:
                     content_charset = re.search('charset=(.*)',
                                                 'charset=utf-8')
-                    content_re = re.compile(self.patternQuoted)
+                    content_re = self.patternQuoted
+            content_re = re.compile('(?P<Content>' + content_re + ')')
             content_match = content_re.search(serialized_email)
             content = content_match.group('Content')
             # define the start and end in the serialized email
@@ -169,7 +158,7 @@ class ExtentedEmailMessage:
             prev_end = orig_end
             orig_len = orig_end - orig_start
             # update offset and start/end values respective to length delta of
-            # preceding payloads
+            # preceding payloads:
             if (len(payload.content)) != orig_len:
                 payload.start += offset
                 offset = orig_len - len(payload.content)
@@ -208,7 +197,7 @@ class ExtentedEmailMessage:
         :param pattern_list: List of pattern strings to search in the mail.
         :type pattern_list: list of str
 
-        :return: A list of match_objects. Returns an empty list if no matches 
+        :return: A list of match_objects. Returns an empty list if no matches
             were found.
         :rtype: list of :class:`re.Match`
         """
@@ -238,11 +227,11 @@ class ExtentedEmailMessage:
             :class:`spamclustering.preprocess.encodingConverter.Payload`
         """
         # Extract start, end and content of from the match_obj
-        start = match_obj.start(3)
-        end = match_obj.end(3)
-        content = match_obj.group(3)
+        start = match_obj.start('Content')
+        end = match_obj.end('Content')
+        content = match_obj.group('Content')
         # create payload
-        payload = pl.Payload(start, end, content, 
+        payload = pl.Payload(start, end, content,
                              content_type, transfer_encoding)
         if payload.content_type == pl.ContentType.PLAINTEXT:
             # find the character set in the match, if search was successful,
@@ -288,10 +277,10 @@ class ExtentedEmailMessage:
         """
         if match_obj is None:
             return pl.ContentType.UNDEFINED
-        match match_obj.group(1):
-            case self.patternContentTypePlain:
+        match match_obj.group('ContentType'):
+            case 'text/plain':
                 return pl.ContentType.PLAINTEXT
-            case self.patternContentTypeHtml:
+            case 'text/html':
                 return pl.ContentType.HTMLTEXT
             case _:
                 return pl.ContentType.UNDEFINED
