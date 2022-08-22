@@ -20,8 +20,8 @@ def main():
 
     Run with:
     
-    python -m spamclustering.example_anonyimzer <path_to_dir1>
-    <path_to_result> test/domains.txt log=True
+    python -m spamclustering.example_anonymizer <path_to_dir1>
+    <path_to_result> test/domains.txt log=y
     
     from root directory.
     """
