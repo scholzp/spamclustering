@@ -73,7 +73,8 @@ class MailAnonymizer:
         search_target = self.extended_mail.email_message.as_bytes().decode(
                                 'utf-8', 'ignore')
         for payload in self.extended_mail.payload_list:
-            search_target += payload.to_utf8()
+            if payload.contains_text() is True:
+                search_target += payload.to_utf8()
 
         # now search for any item which could match with the block list
         for item in self.block_list:
@@ -111,8 +112,7 @@ class MailAnonymizer:
         result = dict()
         for payload in self.extended_mail.payload_list:
             # search only in text content
-            if (payload.content_type == pl.ContentType.PLAINTEXT) or \
-               (payload.content_type == pl.ContentType.HTMLTEXT):
+            if payload.contains_text() is True:
                 string = payload.to_utf8()
                 numbers = phone_regex.findall(string)
                 for number in numbers:
@@ -149,8 +149,7 @@ class MailAnonymizer:
         the resulting string is then used to overwrite the content.
         """
         for payload in self.extended_mail.payload_list:
-            if (payload.content_type == pl.ContentType.PLAINTEXT) or \
-               (payload.content_type == pl.ContentType.HTMLTEXT):
+            if payload.contains_text() is True:
                 string = payload.to_utf8()
                 string = self._perform_replacement(string)
                 payload.set_text_content(string)

@@ -35,7 +35,7 @@ class ExtentedEmailMessage:
     """Regex pattern for detecting html content"""
     patternBase64 = '\n(?:(?:(?:[a-zA-Z0-9=/+]{4})+)\n)+'
 
-    patternContentType = 'Content-Type: (?P<ContentType>[a-z]+/[a-z]+)'
+    patternContentType = 'Content-Type: (?P<ContentType>[a-z]+/\w+)'
     """Regex pattern for detecting 'text/html' content type."""
     patternTransferEncoding = 'Content-Transfer-Encoding: ' + \
                               '(?P<Encoding>base64|quoted-printable)\n'
@@ -64,6 +64,7 @@ class ExtentedEmailMessage:
                  self.patternContentType + '.*\s'
                  + '(?:\s*[-.;\w"]+=[-.;\w"]+\s*)*'
                  + self.patternTransferEncoding
+                 + '(?:Content-ID: (?P<ContentID>.*)\n)?'
                  + '\s*' + '(?P<Content>' + self.patternBase64 + '|' +
                  self.patternQuoted + ')'
             ]
@@ -232,7 +233,8 @@ class ExtentedEmailMessage:
         content = match_obj.group('Content')
         # create payload
         payload = pl.Payload(start, end, content,
-                             content_type, transfer_encoding)
+                             content_type[0], transfer_encoding)
+        payload.extension = content_type[1]
         is_text = payload.content_type in [pl.ContentType.PLAINTEXT,
                                            pl.ContentType.HTMLTEXT]
         # if we got some kind of text payload, we might want to extract the
@@ -281,11 +283,16 @@ class ExtentedEmailMessage:
         """
         if match_obj is None:
             return pl.ContentType.UNDEFINED
-        match match_obj.group('ContentType'):
-            case 'text/plain':
-                return pl.ContentType.PLAINTEXT
-            case 'text/html':
-                return pl.ContentType.HTMLTEXT
+        content_extension = match_obj.group('ContentType').split('/')
+        content_type = content_extension[0]
+        extension = content_extension[1]
+        match (content_type, extension):
+            case ('text', 'plain'):
+                return (pl.ContentType.PLAINTEXT, extension)
+            case ('text', 'html'):
+                return (pl.ContentType.HTMLTEXT, extension)
+            case ('image', _):
+                return (pl.ContentType.IMAGE, extension)
             case _:
                 return pl.ContentType.UNDEFINED
 

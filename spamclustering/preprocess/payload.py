@@ -50,7 +50,11 @@ class Payload:
         self.content = content
         self.content_type = content_type
         self.encoding_type = encoding_type
-        self.charset = 'utf-8'
+        self.extension = None
+        if content_type in [ContentType.HTMLTEXT, ContentType.PLAINTEXT]:
+            self.charset = 'utf-8'
+        else:
+            self.charset = None
 
     def set_charset(self, charset):
         """Set the char set of the content of this payload.
@@ -65,7 +69,7 @@ class Payload:
         """ Use the transfer encoding information to decode the content.
 
         :return: Returns an array of bytes representing the decoded content.
-        :rtype: bytes 
+        :rtype: bytes
         """
         result = bytes(self.content, 'utf-8')
         match self.encoding_type:
@@ -102,7 +106,8 @@ class Payload:
         transfer encoding. In the next step the resulting bytes stream is
         decoded from the respective character set into UTF-8 for python usage.
 
-        :return: An UTF-8 formatted string.
+        :return: An UTF-8 formatted string if the content contains text. None
+            otherwise
         :rtype: str
         """
         result = None
@@ -112,28 +117,40 @@ class Payload:
                 result = content_bytes.decode(self.charset, 'ignore')
             case ContentType.HTMLTEXT:
                 result = content_bytes.decode(self.charset, 'ignore')
+            case _:
+                pass
         return result
+
+    def contains_text(self):
+        """ Helper function which helps to siplify checking if this payload
+        contains text. If this function returns true, text manipulation
+        functions of this payload can be used safely.
+        :return: True of the content type of this payload is text.
+        :retpye: bool
+        """
+        return self.content_type in [ContentType.HTMLTEXT,
+                                     ContentType.PLAINTEXT]
 
     def set_text_content(self, text):
         """ Overwrites the content stored by this object with the given text.
         The given text will first encoded into the target character set and
         then the original transfer encoding will be performed. The result is
-        then used to overwrite the content stored by this object.
+        then used to overwrite the content stored by this object. If the
+        payload did not contain text in it's original form, the given text is
+        encoded as utf-8 and the payload's charset is set to utf-8 too.
 
         :param text: String used to replace the content.
         :type: str
         """
         # first encode the text into the original char set
         content = ''
-        match self.content_type:
-            case ContentType.PLAINTEXT:
-                content = bytes(text.encode(self.charset))
-                content = self.do_transfer_encoding(content)
-                self.content = str(content, self.charset)
-            case ContentType.HTMLTEXT:
-                content = bytes(text.encode(self.charset))
-                content = self.do_transfer_encoding(content)
-                self.content = str(content, self.charset)
+        if self.content_type not in [ContentType.PLAINTEXT,
+                                     ContentType.HTMLTEXT]:
+            self.charset = 'utf-8'
+        content = bytes(text.encode(self.charset))
+        content = self.do_transfer_encoding(content)
+        self.content = str(content, self.charset)
+        self.content = str(content, self.charset)
 
     def __str__(self):
         """ Return a string describing the payload and it's content.
@@ -145,11 +162,15 @@ class Payload:
         result += 'Payload:\n' + self.content[:10] + '[...]'
         result += self.content[len(self.content) - 10:] + '\n'
         str_c_type = ''
+        str_extension = ''
         match self.content_type:
             case ContentType.PLAINTEXT:
                 str_c_type = 'Plain text, char set: ' + self.charset
             case ContentType.HTMLTEXT:
                 str_c_type = 'HTML, char set: ' + self.charset
+            case ContentType.IMAGE:
+                str_c_type = 'Image'
+                str_extension = ', Extension: ' + self.extension
             case ContentType.UNDEFINED:
                 str_c_type = 'Undefined'
 
@@ -161,6 +182,7 @@ class Payload:
                 str_e_type = 'quoted-printable'
             case Encoding.UNDEFINED:
                 str_e_type = 'undefined'
-        result += 'Type: ' + str_c_type + '\nEncoding: ' + str_e_type + '\n'
+        result += 'Type: ' + str_c_type + str_extension
+        result += '\n' + 'Encoding: ' + str_e_type + '\n'
 
         return result
