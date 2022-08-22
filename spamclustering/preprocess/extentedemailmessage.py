@@ -233,17 +233,21 @@ class ExtentedEmailMessage:
         # create payload
         payload = pl.Payload(start, end, content,
                              content_type, transfer_encoding)
-        if payload.content_type == pl.ContentType.PLAINTEXT:
-            # find the character set in the match, if search was successful,
-            # add character set to the payload.
-            pattern = 'charset=\"(?P<charset>[a-zA-Z0-9-_]+)\"'
-        elif payload.content_type == pl.ContentType.HTMLTEXT:
-            pattern = \
-                'charset=3D(?P<charset>[a-zA-Z0-9-_]+(=\n[a-zA-z0-9-_]*)?)'
-        charset_match = re.search(pattern, match_obj.group(0))
-        if charset_match:
-            char_set = quopri.decodestring(charset_match.group('charset'))
-            payload.set_charset(str(char_set, 'utf-8').strip())
+        is_text = payload.content_type in [pl.ContentType.PLAINTEXT,
+                                           pl.ContentType.HTMLTEXT]
+        # if we got some kind of text payload, we might want to extract the
+        # text's character set information for corrent en- and decoding.
+        if is_text is True:
+            if (payload.encoding_type is pl.Encoding.QUOTEDPRINTABLE) and \
+               (payload.content_type is pl.ContentType.HTMLTEXT):
+                pattern = \
+                    'charset=3D(?P<charset>[a-zA-Z0-9-_]+(=\n[a-zA-z0-9-_]*)?)'
+            else:
+                pattern = 'charset=\"(?P<charset>[a-zA-Z0-9-_]+)\"'
+            charset_match = re.search(pattern, match_obj.group(0))
+            if charset_match:
+                char_set = quopri.decodestring(charset_match.group('charset'))
+                payload.set_charset(str(char_set, 'utf-8').strip())
         return payload
 
     def _retrieve_encoding(self, match_obj):
