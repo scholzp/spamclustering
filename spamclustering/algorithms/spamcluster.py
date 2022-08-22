@@ -83,12 +83,11 @@ class SpamCluster:
         for source_file in self.cluster_members:
             file_dest = os.path.join(cluster_path, os.path.split(
                                                             source_file)[1])
+            abs_path_source = os.path.abspath(source_file)
             if DEEPCOPY is True:
-                shutil.copy(source_file, file_dest)
+                shutil.copy(abs_path_source, file_dest)
             else:
-                os.symlink(source_file, file_dest)
-        if len(self.cluster_members) > 1:
-            print(self.uuid)
+                os.symlink(abs_path_source, file_dest)
 
     def invert(self):
         """ Inverts the cluster in a way, that the cluster-file relationship is
