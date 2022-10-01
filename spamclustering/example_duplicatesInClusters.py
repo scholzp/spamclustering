@@ -5,6 +5,7 @@ from spamclustering.mailIo import mailIo as mailIo
 
 import spamclustering.preprocess.extentedemailmessage as exm
 import spamclustering.benchmarking.difftool as dt
+import spamclustering.benchmarking.clusteringprofiler as cp
 
 def main():
     """This example script takes a directory as input. From this directory 
@@ -35,20 +36,11 @@ def main():
             pass
         cluster_set = directory_tree.to_cluster_set()
         file_dict = {}
-
-        for cluster in cluster_set:
-            for file_name,_ in cluster.invert().items():
-                if file_name in file_dict.keys():
-                    file_dict[file_name].append(cluster.uuid)
-                else: 
-                    file_dict[file_name] = [cluster.uuid]
-        
-        print('Total number of files:', len(file_dict.keys()))
-        print('The following files were found in multiple clusters:')
-        for file, cluster_list in file_dict.items():
-            if len(cluster_list) > 1:
-                print(file, cluster_list)        
+        profiler = cp.ClusteringProfiler(cluster_set)
+        print(profiler)        
     else:
-        print("Path was not given")
+        print("Path wass not given")
+
+
 if __name__ == "__main__":
     main()
