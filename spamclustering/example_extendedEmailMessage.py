@@ -36,7 +36,7 @@ def main():
             # then we need to deal with these exceptions in a defined way
             # without interrupting the whole script.
             message = mailIo.readMailFromEmlFile(file)
-            extMessage = exm.ExtentedEmailMessage(message)
+            extMessage = exm.ExtentedEmailMessage(message, file)
             extMessage.extract_payload()
             print(extMessage)
             print(("=================== END OF MAIL {} " +

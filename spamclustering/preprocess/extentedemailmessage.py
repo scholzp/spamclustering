@@ -46,7 +46,8 @@ class ExtentedEmailMessage:
         '(=[0-9A-F][0-9A-F]))+=?\n)*'
     """Regex pattern for detecting quoeted printable content."""
 
-    def __init__(self, message):
+    def __init__(self, message, id):
+        self.id = id
         self.email_message = message
         self.payload_list = []
         self._extract_meta_headers()

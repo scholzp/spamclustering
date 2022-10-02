@@ -73,7 +73,7 @@ def main():
             print('[{0}|{1}] Processing {2}'.format(count, list_len, file))
             try:
                 message = mailIo.readMailFromEmlFile(file)
-                extMessage = exm.ExtentedEmailMessage(message)
+                extMessage = exm.ExtentedEmailMessage(message, file)
                 extMessage.extract_payload()
                 anonymizer.extended_mail = extMessage
                 anonymizer.anonymize()
