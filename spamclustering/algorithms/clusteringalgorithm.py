@@ -6,7 +6,7 @@ class ClusteringAlgorithm:
 
     Implements some boiler plate code for writing clusters to disk.
     """
-    def __init__(self, input_list, output_path):
+    def __init__(self, feature_list, output_path):
         """ Constructor which should be used for this class.
         Providing the required arguments will result in a ready to use
         algorithm, which can do the clustering and is able to write the results
@@ -18,7 +18,7 @@ class ClusteringAlgorithm:
             written to.
         :type output_path: str
         """
-        self.input_files = input_list
+        self.feature_list = feature_list
         self.output_path = output_path
         self.input_path = ''
         self.cluster_dict = {}
@@ -31,6 +31,7 @@ class ClusteringAlgorithm:
         ClusteringAlgorithm and implement own clustering algorithms.
         """
         new_cluster = sc.SpamCluster()
+        input_files = [features['id'] for features in self.feature_list]
         new_cluster.add(self.input_files)
         self.cluster_dict[new_cluster.uuid] = new_cluster
 

@@ -2,6 +2,9 @@ import os
 import sys
 
 import spamclustering.algorithms.ctph as ctph
+import spamclustering.mailIo.mailIo as mailIo
+import spamclustering.preprocess.extentedemailmessage as exm
+import spamclustering.preprocess.featureselector as fs
 
 def main():
     """
@@ -41,8 +44,39 @@ def main():
                 if create == 'y':
                     os.mkdir(out_path)
 
-        test_cluster = ctph.Ctph(file_list, out_path)
+        #create objects of class extendedEmailMessage from input files
+        list_of_messages = []
+        error_log = []
+        count = 1
+        list_len = len(file_list)
+        for file in file_list:
+            print('[{0}|{1}] Processing {2}'.format(count, list_len, file))
+            try:
+                message = mailIo.readMailFromEmlFile(file)
+                _, message_id = os.path.split(file) 
+                extMessage = exm.ExtentedEmailMessage(message, message_id)
+                extMessage.extract_payload()
+                list_of_messages.append(extMessage)
+            except UnicodeEncodeError as u_error:
+                error_string = \
+                    'Mail {} is ill formed and therefore skipped!'.format(file)
+                error_log += error_string + str(u_error) + '\n'
+                print(error_string)
+            except ValueError as v_error:
+                error_string = \
+                    'Mail {} produced a ValueError:{}'.format(file,
+                                                              str(v_error))
+                error_log += error_string + '\n'
+                error_log += "Content of mail:\n"
+                error_log += str(extMessage.header_dict) + '\n'
+                print(error_string)
+            count += 1
+        print('Generate feature list ...')
+        featureSelector = fs.FeatureSelector(list_of_messages)
+        print('Peform clustering ...')
+        test_cluster = ctph.Ctph(featureSelector.feature_list, out_path)
         test_cluster.do_clustering()
+        print('Write clustering to disk ...')
         test_cluster.write_cluster_to_disk()
 
 

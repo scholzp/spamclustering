@@ -24,8 +24,8 @@ class Ctph(ClusteringAlgorithm):
     :type threshold_value: int or float
     """
 
-    def __init__(self, input_list, output_path, threshold=85):
-        ClusteringAlgorithm.__init__(self, input_list, output_path)
+    def __init__(self, feature_list, output_path, threshold=85):
+        ClusteringAlgorithm.__init__(self, feature_list, output_path)
         self.threshold_value = threshold
 
     def do_clustering(self):
@@ -36,8 +36,9 @@ class Ctph(ClusteringAlgorithm):
         # dict to store hash values of each file
         hash_dict = {}
         # calculate hash value for each file
-        for file in self.input_files:
-            hash_dict[file] = ssdeep.hash_from_file(file)
+        for features in self.feature_list:
+            hash_dict[features['id']] = ssdeep.hash(
+                                            features['serialized_string'])
 
         # use a dict to store which file belongs to which cluster
         file_cluster_dict = {}
