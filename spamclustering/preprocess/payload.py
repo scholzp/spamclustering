@@ -39,9 +39,9 @@ class Payload:
     :param content: Content of the payload.
     :type content: str
     :param content_type: MIME type of the content.
-    :type: :class:`spamclustering.preprocess.encodingConverter.ContentType`
+    :type: :class:`spamclustering.preprocess.payload.ContentType`
     :param content_type: Transfer encoding of the mail
-    :type: :class:`spamclustering.preprocess.encodingConverter.Encoding`
+    :type: :class:`spamclustering.preprocess.payload.Encoding`
     """
 
     def __init__(self, start, end, content, content_type, encoding_type):
