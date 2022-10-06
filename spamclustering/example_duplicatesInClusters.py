@@ -33,7 +33,7 @@ def main():
             directory_tree = directory_tree.create_from_path(fn)
         else:
             print('Input has to be directory path! Aborting!')
-            pass
+            return
         cluster_set = directory_tree.to_cluster_set()
         file_dict = {}
         profiler = cp.ClusteringProfiler(cluster_set)
