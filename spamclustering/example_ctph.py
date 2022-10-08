@@ -74,7 +74,7 @@ def main():
         print('Generate feature list ...')
         featureSelector = fs.FeatureSelector(list_of_messages)
         print('Peform clustering ...')
-        test_cluster = ctph.Ctph(featureSelector.feature_list, out_path)
+        test_cluster = ctph.Ctph(featureSelector.feature_dict, out_path)
         test_cluster.do_clustering()
         print('Write clustering to disk ...')
         test_cluster.write_cluster_to_disk()

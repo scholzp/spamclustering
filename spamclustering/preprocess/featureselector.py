@@ -34,7 +34,7 @@ class FeatureSelector:
        * 'html_skeletons': A list of HTML skeletons of all HTML payloads of 
              the mail. A skeleton is all HTML tags of the mail without any 
               content.
-    :type feature_list: list of dicts with mentioned keys.
+    :type feature_dict: dict of dicts with mentioned keys.
     :param feature_availability: Helper dict storing what feature should be
         made available to other objects.
     :type feature_availability: dict(), string as keys, Boolean as value
@@ -46,9 +46,8 @@ class FeatureSelector:
         :type list_of_messages: list of 
           `spamclustering.preprocess.extendedemailmessage.ExtededEmailMessage`
         """
-        self.feature_list = []
+        self.feature_dict = dict()
         self.feature_availability = {
-            'id': True,
             'serialized_string': True,
             'text_payloads': True,
             'html_payloads': True,
@@ -60,14 +59,13 @@ class FeatureSelector:
         # process messages
         for message in list_of_messages:
             feature_dict = self._collect_features(message)
-            self.feature_list.append(feature_dict)
+            self.feature_dict[message.id] = feature_dict
 
     def _collect_features(self, message):
         """ Helper function to collect all features.
         Calls other helper functions.
         """
         feature_dict = dict()
-        feature_dict['id'] = message.id
         feature_dict['serialized_string'] = message.email_message.as_string()
         feature_dict['subject'] = message.email_message.get('subject', '')
         # add payloads by type to feature list
@@ -129,7 +127,7 @@ class FeatureSelector:
         """ Create string representation.
         """
         result = ''
-        for feature_dict in self.feature_list:
+        for _, feature_dict in self.feature_dict.items():
             for key, item in feature_dict.items():
                 if self.feature_availability[key] == True:
                     result += str(key) + ': ' + str(item) + '\n'

@@ -33,7 +33,7 @@ def main():
             extMessage.extract_payload()
             featureSelector = fs.FeatureSelector([extMessage])
             featureSelector.toggle_feature('serialized_string')
-            #print(featureSelector)
+            print(featureSelector)
         else:
             print('Input was ot a file! Aborting!')
             return     
