@@ -66,7 +66,7 @@ class FeatureSelector:
         Calls other helper functions.
         """
         feature_dict = dict()
-        feature_dict['serialized_string'] = message.email_message.as_string()
+        #feature_dict['serialized_string'] = message.email_message.as_string()
         feature_dict['subject'] = message.email_message.get('subject', '')
         # add payloads by type to feature list
         feature_dict.update(self._process_payloads(message))
@@ -76,27 +76,27 @@ class FeatureSelector:
     def _process_payloads(self, message):
         """ Extarcts features from payloads.
         """
-        available_types = []
+        available_types = ''
         feature_dict = dict()
-        feature_dict['text_payloads'] = []
-        feature_dict['html_payloads'] = []
-        feature_dict['image_payloads'] = []
-        feature_dict['payload_types'] = []
-        feature_dict['html_skeletons'] = []
+        feature_dict['text_payloads'] = ''
+        feature_dict['html_payloads'] = ''
+        feature_dict['image_payloads'] = ''
+        feature_dict['payload_types'] = ''
+        feature_dict['html_skeletons'] = ''
         for payload in message.payload_list:
             match(payload.content_type):
                 case pl.ContentType.PLAINTEXT:
-                    feature_dict['text_payloads'].append(payload.to_utf8())
-                    available_types.append('text')
+                    feature_dict['text_payloads'] += payload.to_utf8()
+                    available_types += 'text'
                 case pl.ContentType.HTMLTEXT:
                     utf8_payload = payload.to_utf8()
-                    feature_dict['html_payloads'].append(utf8_payload)
-                    available_types.append('html')
-                    feature_dict['html_skeletons'].append(
-                        self._extract_html_skeleton(utf8_payload))
+                    feature_dict['html_payloads'] += utf8_payload
+                    available_types += 'html'
+                    feature_dict['html_skeletons'] += \
+                        self._extract_html_skeleton(utf8_payload)
                 case pl.ContentType.IMAGE:
-                    feature_dict['image_payloads'].append(payload.content)
-                    available_types.append('image')
+                    feature_dict['image_payloads'] += payload.content
+                    available_types += 'image'
         feature_dict['payload_types'] = available_types
         return feature_dict
 
