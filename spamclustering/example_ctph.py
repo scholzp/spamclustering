@@ -53,8 +53,7 @@ def main():
             print('[{0}|{1}] Processing {2}'.format(count, list_len, file))
             try:
                 message = mailIo.readMailFromEmlFile(file)
-                _, message_id = os.path.split(file) 
-                extMessage = exm.ExtentedEmailMessage(message, message_id)
+                extMessage = exm.ExtentedEmailMessage(message, file)
                 extMessage.extract_payload()
                 list_of_messages.append(extMessage)
             except UnicodeEncodeError as u_error:
