@@ -45,9 +45,9 @@ class SpamCluster:
     :param uuid: UUID of this
         :class:`spamclustering.algorithms.ctph.Spamcluster`.
     :type uuid: str
-    :param cluster_members: List of filenames representing files added to this
+    :param cluster_members: Set of filenames representing files added to this
         cluster
-    :type cluster_members: list of str
+    :type cluster_members: set of str
     """
     def __init__(self):
         self.uuid = str(uuid.uuid4())
