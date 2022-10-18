@@ -23,7 +23,7 @@ class FPTreeNode():
     def add_node(self, node):
         self.children.append(node)
         node.parent = self
-    
+
     def search_feature(self, feature):
         result = None
         for child in self.children:
@@ -44,8 +44,7 @@ class FPTreeNode():
                 self.add_node(new_child)
                 feature_child = new_child
             feature_child.add_feature_vector(mail_id, feature_vector)
-                
-    
+
     def is_leaf(self):
         """ Return true if this node is a leaf.
 
@@ -113,7 +112,7 @@ class FPTreeClustering(ClusteringAlgorithm):
                 leaves.append(current)
             else:
                 to_visit.extend(current.children)
-        
+
         # create clusters form leaves
         for leave in leaves:
             cluster = SpamCluster()
