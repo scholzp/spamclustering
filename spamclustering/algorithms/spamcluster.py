@@ -134,3 +134,19 @@ class SpamCluster:
             additional_set = other.cluster_members - self.cluster_members
             result = ClusterDiff(self, other, missing_set, additional_set)
         return result
+
+    def set_of_member_ids(self):
+        """Return a set only containing file names of the memeber.
+        
+        Attribute `SpamCLuster.cluster_members` contains the whole source path 
+        of the original files. Split this path into the filename and path. 
+        Create a set containing only the filenames.
+
+        :return: Set of unique file names in this cluster.
+        :rtype: set() of string. 
+        """
+        result = set()
+        for path in self.cluster_members:
+            _, file_name = os.path.split(path)
+            result.add(file_name)
+        return result
