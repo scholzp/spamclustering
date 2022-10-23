@@ -69,6 +69,20 @@ class SpamCluster:
         else:
             self.cluster_members.add(files)
 
+    def remove(self, set_to_remove):
+        """Remove all files contained int the given set.
+        
+        :param set_to_remove: Set to remove from the cluster members.
+        :type set_to_remove: set of file names
+        """
+        members_to_remove = set()
+        for member in self.cluster_members:
+            _, member_id = os.path.split(member)
+            if (member_id in set_to_remove) or (member in set_to_remove):
+                members_to_remove.add(member)
+        for member in members_to_remove:
+            self.cluster_members.remove(member)
+
     def write_to_path(self, path):
         """ Write this cluster to the desired path.
 
