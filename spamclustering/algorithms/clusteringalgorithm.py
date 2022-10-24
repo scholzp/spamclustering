@@ -21,7 +21,8 @@ class ClusteringAlgorithm:
         self.feature_dict = feature_dict
         self.output_path = output_path
         self.input_path = ''
-        self.cluster_dict = {}
+        self.cluster_dict = dict()
+        self.id = ''
 
     def do_clustering(self):
         """ Performs the class specific clustering algorithm.
