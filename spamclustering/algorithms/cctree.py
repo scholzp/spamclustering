@@ -44,7 +44,6 @@ class CCTreeNode():
             attribute_value_dict[attribute] = value_dict
         # if node purity is to low, split on attribute with highest entropy
         node_purity = self._calculate_node_purity(attribute_value_dict)
-        print('Node purity:', node_purity)
         if self.purity_threshold > node_purity:
             splitting_attribute = self._calculute_max_shannon_entropy(
                                             attribute_value_dict)
@@ -59,7 +58,7 @@ class CCTreeNode():
             # to which value:
             # {value1: [point1_1, point1_2, ...], value2:[point2_1, ...], ...}
             splitting_dict = dict()
-            print('Splitting at attribute: ', splitting_attribute)
+            #print('Splitting at attribute: ', splitting_attribute)
             for point_id, data_point in self.data_points.items():
                 value_of_point = data_point[splitting_attribute]
                 data_point_copy = copy.deepcopy(data_point)
