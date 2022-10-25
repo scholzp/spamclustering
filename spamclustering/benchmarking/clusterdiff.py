@@ -111,13 +111,18 @@ def generate_cluster_diff(first, second):
         labels_gold.append(labels_gold_dict[member_id])
 
     metrics_dict = {
-        'rand' : metrics.rand_score(labels_gold, labels_test),
-        'rand_adjusted' : metrics.adjusted_rand_score(
+        'ri' : metrics.rand_score(labels_gold, labels_test),
+        'ari' : metrics.adjusted_rand_score(
             labels_gold, labels_test),
-        'mri' : metrics.normalized_mutual_info_score(labels_gold, labels_test),
+        'mmi' : metrics.normalized_mutual_info_score(labels_gold, labels_test),
+        'ami' : metrics.adjusted_mutual_info_score(labels_gold, labels_test),
         'accuracy' : metrics.accuracy_score(labels_gold, labels_test),
-        'f1_score' : metrics.f1_score(
+        'precision' : metrics.precision_score(labels_gold, labels_test),
+        'recall' : metrics.recall_score(labels_gold, labels_test), 
+        'f1_macro' : metrics.f1_score(
             labels_gold, labels_test, average='macro'),
+        'f1_micro' : metrics.f1_score(
+            labels_gold, labels_test, average='micro'),
     }
     
 
