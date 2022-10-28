@@ -117,8 +117,10 @@ def generate_cluster_diff(first, second):
         'mmi' : metrics.normalized_mutual_info_score(labels_gold, labels_test),
         'ami' : metrics.adjusted_mutual_info_score(labels_gold, labels_test),
         'accuracy' : metrics.accuracy_score(labels_gold, labels_test),
-        'precision' : metrics.precision_score(labels_gold, labels_test),
-        'recall' : metrics.recall_score(labels_gold, labels_test), 
+        'precision' : metrics.precision_score(
+            labels_gold, labels_test, average='macro'),
+        'recall' : metrics.recall_score(
+            labels_gold, labels_test,average='macro'), 
         'f1_macro' : metrics.f1_score(
             labels_gold, labels_test, average='macro'),
         'f1_micro' : metrics.f1_score(
