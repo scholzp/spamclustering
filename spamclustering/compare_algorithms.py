@@ -79,7 +79,9 @@ def create_extended_mail_list(file_list):
 
 def collect_features(mail_list):
     featureSelector = fs.FeatureSelector(mail_list)
-    return featureSelector.feature_dict
+    #return featureSelector.get_non_categorigal_features()
+    return featureSelector.get_categorigal_features()
+    #return featureSelector.feature_dict
 
 def perform_clustering(algorithm):
     algorithm.do_clustering()
@@ -100,7 +102,7 @@ def main():
     Run with:
     
     python -m spamclustering.example_ctph <path_to_files> 
-    <path_to_cluster_out>
+    <path_to_gold_cluster> <path_to_cluster_output>
     
     from root directory.
     """
@@ -161,21 +163,22 @@ def main():
         (len(features))
 
         job_dict = {
-            "CCTree 1" : ["CCTree", 50],
-            "CCTree 2" : ["CCTree", 40],
-            "CCTree 3" : ["CCTree", 30],
-            "CCTree 4" : ["CCTree", 60],
-            "FPTree 1" : ["FPTree", 5],
+
+            # "CCTree 1" : ["CCTree", 50],
+            # "CCTree 2" : ["CCTree", 40],
+            # "CCTree 3" : ["CCTree", 30],
+            # "CCTree 4" : ["CCTree", 60],
+            # "FPTree 1" : ["FPTree", 5],
             "Clope 1" : ["Clope", 5],
             "Clope 2" : ["Clope", 3],
             "Clope 3" : ["Clope", 7.5],
             "Clope 4" : ["Clope", 10],
             "Clope 5" : ["Clope", 15],
             "Clope 6" : ["Clope", 20],
-            "CTPH 1" : ["CTPH", 80],
-            "CTPH 2" : ["CTPH", 70],
-            "CTPH 3" : ["CTPH", 60],
-            "CTPH 4" : ["CTPH", 90],
+            # "CTPH 1" : ["CTPH", 80],
+            # "CTPH 2" : ["CTPH", 70],
+            # "CTPH 3" : ["CTPH", 60],
+            # "CTPH 4" : ["CTPH", 90],
         }
 
         num_of_algos = len(job_dict)

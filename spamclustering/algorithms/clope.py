@@ -127,6 +127,8 @@ class ClopeClustering(ClusteringAlgorithm):
         for _, feature in feature_vector.items():
             if feature in list(cluster.item_frequency.keys()):
                 if cluster.item_frequency[feature] > 0:
+                    cluster.item_frequency[feature] -= 1
+                if cluster.item_frequency[feature] == 0:
                     w_new -= 1
 
         c_n = (len(cluster.cluster_members))

@@ -273,7 +273,6 @@ class FeatureSelector:
             'text_payloads',
             'html_payloads',
             'image_payloads',
-            'payload_types',
             'subject',
             'html_skeletons',
             'attachment_names'
