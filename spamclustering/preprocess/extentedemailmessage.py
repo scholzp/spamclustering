@@ -116,7 +116,7 @@ class ExtentedEmailMessage:
                     content_charset = re.search('charset=(.*)',
                                                 'charset=utf-8')
                     content_re = self.patternQuoted
-            content_re = re.compile('(?P<Content>' + content_re + ')')
+            content_re = re.compile('(?P<Content>' + content_re + '\n)')
             content_match = content_re.search(serialized_email)
             content = content_match.group('Content')
             # define the start and end in the serialized email
