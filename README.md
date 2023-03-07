@@ -1,3 +1,14 @@
+# Preamble
+This project is still work in progress and not everything seems to work 
+perfectly fine yet.
+
+Still this little framework can be used to process and cluster e-mails in eml 
+file format. For clustering, a small seclection of non-machine learning based
+approaches are implemented. The main purpose of this project is to evaluate 
+performance of clustering algorithms on the task of clustering spam and fishing
+e-mails into their respective campaigns (which is different to deciding if 
+a mail ist spam or not).
+
 # Installation
 Running pip with `requierements.txt` should be enough to use these scripts. 
 
