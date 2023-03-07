@@ -255,7 +255,6 @@ class FeatureSelector:
     def get_categorigal_features(self):
         """ Returns a feature dict containing only categorigal features.
         """
-
         categorigal_keys = [
             'payload_types',
             'uri_amount',
