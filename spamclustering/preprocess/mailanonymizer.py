@@ -104,7 +104,7 @@ class MailAnonymizer:
             [-.\s]?     # optional delimiter after area code
             \d{1,4}     # begin of phone number with optional delimiters
             [-.\s]?
-            \d{1,4}
+            \d{1,5}
             [-.\s]?
             \d{2,9}
             """,
